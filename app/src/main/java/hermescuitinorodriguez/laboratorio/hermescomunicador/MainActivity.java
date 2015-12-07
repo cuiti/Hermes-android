@@ -19,15 +19,15 @@ public class MainActivity extends AppCompatActivity {
 
         inicializarListaAumnos();
 
-        ListView lv = (ListView) findViewById(R.id.listaAlumnos);
+        ListView listView = (ListView) findViewById(R.id.listaAlumnos);
         ListAdapter adapter = new ArrayAdapter<Alumno>(this, android.R.layout.simple_list_item_1, alumnos);
-        lv.setAdapter(adapter);
+        listView.setAdapter(adapter);
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent(MainActivity.this, GrillaAlumnoActivity.class);
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, AlumnoActivity.class);
                 intent.putExtra("alumno", adapterView.getAdapter().getItem(position).toString());
                 startActivity(intent);
             }
@@ -36,7 +36,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void inicializarListaAumnos(){
         alumnos.add(new Alumno(1,"Juan","Fernández"));
-        alumnos.add(new Alumno(2,"Aléxándér","Ródriguéz"));
+        alumnos.add(new Alumno(2,"Alexander","Rodríguz"));
         alumnos.add(new Alumno(3,"Verena","Olsowy"));
+        alumnos.add(new Alumno(1,"Edgar","Tordó"));
+        alumnos.add(new Alumno(2,"Mariano","Ber"));
+        alumnos.add(new Alumno(3,"Lucia","Moyano"));
     }
 }
