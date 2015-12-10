@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">Hermes Comunicador</string>
-    <string name="title_activity_grilla_alumno">GrillaAlumnoActivity</string>
+    <string name="app_name">Comunicador</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="modo_edicion">Modo Edición</string>
+    <string name="ajustes">Ajustes</string>
 </resources>
