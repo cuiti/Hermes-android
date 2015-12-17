@@ -2,11 +2,23 @@ package hermescuitinorodriguez.laboratorio.hermescomunicador;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,30 +30,41 @@ public class AlumnoActivity extends AppCompatActivity {
     private GridView gridView;
     private int anchoColumna;
     private List<Integer> imagenes = new ArrayList<Integer>();
+    String alumno;
+
+    /**
+     * The {@link android.support.v4.view.PagerAdapter} that will provide
+     * fragments for each of the sections. We use a
+     * {@link FragmentPagerAdapter} derivative, which will keep every
+     * loaded fragment in memory. If this becomes too memory intensive, it
+     * may be best to switch to a
+     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     */
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+
+    /**
+     * The {@link ViewPager} that will host the section contents.
+     */
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alumno);
-        gridView = (GridView) this.findViewById(R.id.grid_view);
+        alumno = getIntent().getExtras().getString("alumno");
 
-        inicializarGrilla(Constantes.CANTIDAD_COLUMNAS, Constantes.PADDING_GRILLA);
-        TextView tv = (TextView) this.findViewById(R.id.alumno);
-        Bundle b = getIntent().getExtras();
-        tv.setText(b.getString("alumno"));
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        imagenes.add(R.drawable.casco);
-        imagenes.add(R.drawable.chapas);
-        imagenes.add(R.drawable.pelota);
-        imagenes.add(R.drawable.chapas);
-        imagenes.add(R.drawable.palos);
-        imagenes.add(R.drawable.pelota);
-        imagenes.add(R.drawable.palos);
-        imagenes.add(R.drawable.pelota);
-        imagenes.add(R.drawable.pelota);
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        adapter = new GridViewImageAdapter(this, imagenes,anchoColumna);
-        gridView.setAdapter(adapter);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
+
+        setTitle(alumno);
 
     }
 
@@ -60,9 +83,7 @@ public class AlumnoActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch(item.getItemId()) {
             case R.id.ajustes:
-                Intent intent = new Intent(this, AjustesActivity.class);
-                TextView textView = (TextView) findViewById(R.id.alumno);
-                String alumno = textView.getText().toString();
+                Intent intent = new Intent(AlumnoActivity.this, AjustesActivity.class);
                 intent.putExtra("alumno", alumno);
                 startActivity(intent);
                 return true;
@@ -94,4 +115,117 @@ public class AlumnoActivity extends AppCompatActivity {
         return width;
     }
 
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PlaceholderFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+        private GridView gridView;
+        private List<Integer> imagenes = new ArrayList<Integer>();
+        private int anchoColumna;
+        private GridViewImageAdapter adapter;
+
+
+        public PlaceholderFragment() {
+
+        }
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PlaceholderFragment newInstance(int sectionNumber) {
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_activity_main, container, false);
+
+            gridView = (GridView) rootView.findViewById(R.id.grid_view);
+            this.inicializarGrilla(3, 18);
+
+            adapter = new GridViewImageAdapter(getActivity(), Datos.img.get(getArguments().getInt(ARG_SECTION_NUMBER)),anchoColumna);
+
+            gridView.setAdapter(adapter);
+            return rootView;
+
+            //listView = (ListView) rootView.findViewById(R.id.lista);
+            //listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        }
+
+        private void inicializarGrilla(int cantidadColumnas, int paddingGrilla) {
+            anchoColumna = (int) ((this.getScreenWidth() - ((cantidadColumnas + 1) * paddingGrilla)) / cantidadColumnas);
+            gridView.setNumColumns(cantidadColumnas);
+            gridView.setColumnWidth(anchoColumna);
+            gridView.setStretchMode(GridView.NO_STRETCH);
+            gridView.setPadding(paddingGrilla, paddingGrilla, paddingGrilla, paddingGrilla);
+            gridView.setHorizontalSpacing(paddingGrilla);
+            gridView.setVerticalSpacing(paddingGrilla);
+        }
+
+        public int getScreenWidth() {
+
+            DisplayMetrics dm = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+            int width = dm.widthPixels;
+
+            return width;
+        }
+    }
+
+    public void loadBitmap(int resId, ImageView imageView) {
+        BitmapWorkerTask task = new BitmapWorkerTask(imageView, getResources());
+        task.execute(resId);
+    }
+
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            return PlaceholderFragment.newInstance(position + 1);
+        }
+
+        @Override
+        public int getCount() {
+            // Show 5 total pages.
+            return 5;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "Pista";
+                case 1:
+                    return "Establo";
+                case 2:
+                    return "Necesidades";
+                case 3:
+                    return "Emociones";
+                case 4:
+                    return alumno;
+            }
+            return null;
+        }
+    }
 }

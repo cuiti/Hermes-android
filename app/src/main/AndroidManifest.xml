@@ -15,7 +15,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AlumnoActivity" />
+        <activity
+            android:name=".AlumnoActivity"
+            android:parentActivityName=".ComunicadorGrillaActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="hermescuitinorodriguez.laboratorio.hermescomunicador.ComunicadorGrillaActivity" />
+        </activity>
         <activity android:name=".AjustesActivity"
             android:label="@string/ajustes">
 

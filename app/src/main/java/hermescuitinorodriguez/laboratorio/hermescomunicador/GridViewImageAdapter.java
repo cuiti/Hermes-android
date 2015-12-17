@@ -58,12 +58,11 @@ public class GridViewImageAdapter extends BaseAdapter {
 
 		imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		imageView.setLayoutParams(new GridView.LayoutParams(imageWidth, imageWidth));
-		imageView.setImageDrawable(_activity.getResources().getDrawable(this.listaIdImagenes.get(position)));
+		//imageView.setImageDrawable(_activity.getResources().getDrawable(this.listaIdImagenes.get(position)));
+		((AlumnoActivity) _activity).loadBitmap(this.listaIdImagenes.get(position), imageView);
 
 	
 		return imageView;
 	}
-
-	
 
 }
