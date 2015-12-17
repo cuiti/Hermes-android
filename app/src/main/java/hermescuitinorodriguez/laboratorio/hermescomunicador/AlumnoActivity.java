@@ -96,25 +96,6 @@ public class AlumnoActivity extends AppCompatActivity {
 
     }
 
-    private void inicializarGrilla(int cantidadColumnas, int paddingGrilla) {
-        anchoColumna = (int) ((this.getScreenWidth() - ((cantidadColumnas + 1) * paddingGrilla)) / cantidadColumnas);
-        gridView.setNumColumns(cantidadColumnas);
-        gridView.setColumnWidth(anchoColumna);
-        gridView.setStretchMode(GridView.NO_STRETCH);
-        gridView.setPadding(paddingGrilla, paddingGrilla, paddingGrilla, paddingGrilla);
-        gridView.setHorizontalSpacing(paddingGrilla);
-        gridView.setVerticalSpacing(paddingGrilla);
-    }
-
-    public int getScreenWidth() {
-
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;
-
-        return width;
-    }
-
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -154,13 +135,10 @@ public class AlumnoActivity extends AppCompatActivity {
             gridView = (GridView) rootView.findViewById(R.id.grid_view);
             this.inicializarGrilla(3, 18);
 
-            adapter = new GridViewImageAdapter(getActivity(), Datos.img.get(getArguments().getInt(ARG_SECTION_NUMBER)),anchoColumna);
+            adapter = new GridViewImageAdapter(getActivity(), Datos.images.get(getArguments().getInt(ARG_SECTION_NUMBER)).ids, anchoColumna,Datos.images.get(getArguments().getInt(ARG_SECTION_NUMBER)).nombres);
 
             gridView.setAdapter(adapter);
             return rootView;
-
-            //listView = (ListView) rootView.findViewById(R.id.lista);
-            //listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         }
 
         private void inicializarGrilla(int cantidadColumnas, int paddingGrilla) {

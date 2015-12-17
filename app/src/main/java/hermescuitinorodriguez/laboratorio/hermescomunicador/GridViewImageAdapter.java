@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import android.media.MediaPlayer;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,14 @@ public class GridViewImageAdapter extends BaseAdapter {
 	private Activity _activity;
 	private List<Integer> listaIdImagenes = new ArrayList<Integer>();
 	private int imageWidth;
+	private List<String> audios = new ArrayList<String>();
 
 	public GridViewImageAdapter(Activity activity, List<Integer> listaIdImagenes,
-			int imageWidth) {
+			int imageWidth, List<String> listaNombreImagenes) {
 		this._activity = activity;
 		this.listaIdImagenes = listaIdImagenes;
 		this.imageWidth = imageWidth;
+		this.audios = listaNombreImagenes;
 	}
 
 	@Override
@@ -47,7 +50,7 @@ public class GridViewImageAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		ImageView imageView;
 		if (convertView == null) {
 			imageView = new ImageView(_activity);
@@ -60,7 +63,14 @@ public class GridViewImageAdapter extends BaseAdapter {
 		imageView.setLayoutParams(new GridView.LayoutParams(imageWidth, imageWidth));
 		//imageView.setImageDrawable(_activity.getResources().getDrawable(this.listaIdImagenes.get(position)));
 		((AlumnoActivity) _activity).loadBitmap(this.listaIdImagenes.get(position), imageView);
-
+		imageView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				int soundId = _activity.getResources().getIdentifier(audios.get(position), "raw", _activity.getPackageName());
+				MediaPlayer mediaPlayer = MediaPlayer.create(_activity, soundId);
+				mediaPlayer.start();
+			}
+		});
 	
 		return imageView;
 	}
