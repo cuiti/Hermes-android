@@ -38,7 +38,13 @@ public class ComunicadorGrillaActivity extends AppCompatActivity {
                  // Toast.makeText(ComunicadorGrillaActivity.this, adapterView.getAdapter().getItem(i).toString(), Toast.LENGTH_SHORT);
                  System.out.println(adapterView.getAdapter().getItem(position).toString());
                  Intent intent = new Intent(ComunicadorGrillaActivity.this, AlumnoActivity.class);
-                 intent.putExtra("alumno", adapterView.getAdapter().getItem(position).toString());
+
+                 Alumno alum = (Alumno) adapterView.getAdapter().getItem(position);
+//                 intent.putExtra("alumno", adapterView.getAdapter().getItem(position).toString());
+                 String nombre = alum.getNombre();
+                 String apellido = alum.getApellido();
+                 intent.putExtra("nombre", nombre);
+                 intent.putExtra("apellido", apellido);
                  startActivity(intent);
              }
          });

@@ -31,6 +31,8 @@ public class AlumnoActivity extends AppCompatActivity {
     private int anchoColumna;
     private List<Integer> imagenes = new ArrayList<Integer>();
     String alumno;
+    String nombre;
+    String apellido;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -51,7 +53,10 @@ public class AlumnoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alumno);
-        alumno = getIntent().getExtras().getString("alumno");
+//        alumno = getIntent().getExtras().getString("alumno");
+        nombre = getIntent().getExtras().getString("nombre");
+        apellido = getIntent().getExtras().getString("apellido");
+
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -180,6 +185,9 @@ public class AlumnoActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+
+            NotificacionDTO noti = new NotificacionDTO(apellido, nombre, "emociones", "hogar", "cansado");
+
             return PlaceholderFragment.newInstance(position + 1);
         }
 
