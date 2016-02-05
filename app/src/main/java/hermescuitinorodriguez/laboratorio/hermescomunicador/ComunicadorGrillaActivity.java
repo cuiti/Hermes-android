@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -18,6 +19,7 @@ public class ComunicadorGrillaActivity extends AppCompatActivity {
 
     List<Map<String, Alumno>> alumnos = new ArrayList<Map<String,Alumno>>();
     List<Alumno> alumnosList = new ArrayList<Alumno>();
+    Button nuevoAlumno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,15 @@ public class ComunicadorGrillaActivity extends AppCompatActivity {
                  startActivity(intent);
              }
          });
+
+        nuevoAlumno = (Button) findViewById(R.id.nuevoAlumno);
+        nuevoAlumno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ComunicadorGrillaActivity.this, AjustesActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void inicializarListaMaps() {

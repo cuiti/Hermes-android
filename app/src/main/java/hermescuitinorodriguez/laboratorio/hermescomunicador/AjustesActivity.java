@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
 public class AjustesActivity extends AppCompatActivity {
 
-    @Override
+/*    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajustes);
@@ -19,9 +20,36 @@ public class AjustesActivity extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.datos_alumno);
         textView.setText(alumno);
 
+    }*/
+
+    TextView nombreAlumno;
+    TextView apellidoAlumno;
+    Button guardar;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_ajustes);
+
+        nombreAlumno = (TextView) findViewById(R.id.nombreAlumno);
+        apellidoAlumno = (TextView) findViewById(R.id.apellidoAlumno);
+        guardar =   (Button) findViewById(R.id.guardar);
+        guardar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                nuevoAlumno();
+            }
+        });
     }
 
-    public void onCheckboxClicked(View view) {
+    protected void nuevoAlumno(){
+        String nombre = nombreAlumno.getText().toString();
+        String apellido = apellidoAlumno.getText().toString();
+        Database database = new Database(getApplicationContext());
+        database.getWritableDatabase();
+        database.nuevoAlumno(nombre, apellido, "femenino", "mediano", "establo");
+    }
+
+    /*public void onCheckboxClicked(View view) {
 
         boolean checked = ((CheckBox) view).isChecked();
 
@@ -43,5 +71,5 @@ public class AjustesActivity extends AppCompatActivity {
                 // agregar pestaña emociones
                 break;
         }
-    }
+    }*/
 }
