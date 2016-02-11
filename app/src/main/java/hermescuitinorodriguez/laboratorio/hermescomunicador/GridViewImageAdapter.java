@@ -21,17 +21,23 @@ import java.util.List;
 
 public class GridViewImageAdapter extends BaseAdapter {
 
+    private String nombre;
+    private String apellido;
+    private String categoria;
+    private String contenido;
 	private Activity _activity;
 	private List<Integer> listaIdImagenes = new ArrayList<Integer>();
 	private int imageWidth;
 	private List<String> audios = new ArrayList<String>();
 
 	public GridViewImageAdapter(Activity activity, List<Integer> listaIdImagenes,
-			int imageWidth, List<String> listaNombreImagenes) {
+			int imageWidth, List<String> listaNombreImagenes, String nombre, String apellido) {
 		this._activity = activity;
 		this.listaIdImagenes = listaIdImagenes;
 		this.imageWidth = imageWidth;
 		this.audios = listaNombreImagenes;
+        this.nombre=nombre;
+        this.apellido=apellido;
 	}
 
 	@Override
@@ -69,6 +75,15 @@ public class GridViewImageAdapter extends BaseAdapter {
 				int soundId = _activity.getResources().getIdentifier(audios.get(position), "raw", _activity.getPackageName());
 				MediaPlayer mediaPlayer = MediaPlayer.create(_activity, soundId);
 				mediaPlayer.start();
+
+                String nombreContenido = _activity.getResources().getResourceEntryName(soundId);
+                //ToDo: conseguir la categoria
+                NotificacionDTO notiDTO = new NotificacionDTO(apellido, nombre, "categoriaHardcoded", "Cedica", nombreContenido); //el contexto no se usa, así que queda hardocdeado como Cedica
+                List<NotificacionDTO> lista = new ArrayList<NotificacionDTO>();
+                lista.add(notiDTO);
+
+                new SendNotificationTask().execute(lista);
+
 			}
 		});
 	

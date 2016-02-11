@@ -21,6 +21,17 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +41,7 @@ public class AlumnoActivity extends AppCompatActivity {
     private GridView gridView;
     private int anchoColumna;
     private List<Integer> imagenes = new ArrayList<Integer>();
-    String alumno;
+    public String alumno;
     String nombre;
     String apellido;
 
@@ -114,7 +125,8 @@ public class AlumnoActivity extends AppCompatActivity {
         private List<Integer> imagenes = new ArrayList<Integer>();
         private int anchoColumna;
         private GridViewImageAdapter adapter;
-
+        static String nombre;
+        static String apellido;
 
         public PlaceholderFragment() {
 
@@ -124,11 +136,13 @@ public class AlumnoActivity extends AppCompatActivity {
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
+        public static PlaceholderFragment newInstance(int sectionNumber,String nombre1,String apellido1) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
+            nombre=nombre1;
+            apellido=apellido1;
             return fragment;
         }
 
@@ -140,7 +154,7 @@ public class AlumnoActivity extends AppCompatActivity {
             gridView = (GridView) rootView.findViewById(R.id.grid_view);
             this.inicializarGrilla(3, 18);
 
-            adapter = new GridViewImageAdapter(getActivity(), Datos.images.get(getArguments().getInt(ARG_SECTION_NUMBER)).ids, anchoColumna,Datos.images.get(getArguments().getInt(ARG_SECTION_NUMBER)).nombres);
+            adapter = new GridViewImageAdapter(getActivity(), Datos.images.get(getArguments().getInt(ARG_SECTION_NUMBER)).ids, anchoColumna,Datos.images.get(getArguments().getInt(ARG_SECTION_NUMBER)).nombres, nombre, apellido);
 
             gridView.setAdapter(adapter);
             return rootView;
@@ -186,9 +200,8 @@ public class AlumnoActivity extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
 
-            NotificacionDTO noti = new NotificacionDTO(apellido, nombre, "emociones", "hogar", "cansado");
 
-            return PlaceholderFragment.newInstance(position + 1);
+            return PlaceholderFragment.newInstance(position + 1,nombre,apellido);
         }
 
         @Override

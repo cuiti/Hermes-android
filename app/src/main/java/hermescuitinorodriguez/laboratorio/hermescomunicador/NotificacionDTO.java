@@ -19,7 +19,7 @@ public class NotificacionDTO {
 
     private String fecha_envio;
 
-    public NotificacionDTO(String apellido, String contexto, String categoria, String nombre, String contenido) {
+    public NotificacionDTO(String apellido, String nombre, String categoria, String contexto, String contenido) {
         this.apellido = apellido;
         this.contexto = contexto;
         this.categoria = categoria;

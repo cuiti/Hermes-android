@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * Created by Alfonso on 10/2/2016.
+ * Envía una lista de NotificacionDTO al monitor
  */
 public class SendNotificationTask extends AsyncTask{
 

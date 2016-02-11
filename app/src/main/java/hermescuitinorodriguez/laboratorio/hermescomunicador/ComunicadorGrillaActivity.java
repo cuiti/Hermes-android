@@ -60,8 +60,8 @@ public class ComunicadorGrillaActivity extends AppCompatActivity {
     }
 
     private void inicializarListaMaps() {
-        alumnos.add(crearAlumno("alumno", new Alumno("Carlos", "Ferro Viera")));
-        alumnos.add(crearAlumno("alumno", new Alumno("Guillote", "Coppola")));
+        alumnos.add(crearAlumno("alumno", new Alumno("Carlos", "Ferro")));
+        alumnos.add(crearAlumno("alumno", new Alumno("Guillermo", "Coppola")));
         alumnos.add(crearAlumno("alumno", new Alumno("Diego", "Maradona")));
     }
 
