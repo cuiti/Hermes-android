@@ -18,19 +18,11 @@ public class Database extends SQLiteOpenHelper{
             "(ID INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, apellido TEXT, sexo TEXT, tamañoPictogramas TEXT, solapas TEXT )";
 
     private static final String PICTOGRAMA = "CREATE TABLE pictograma"+
-            "(ID INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, carpeta TEXT)";
+            "(ID TEXT, nombre TEXT, carpeta TEXT)";
 
     private static final String CONFIGURACION = "CREATE TABLE configuracion"+
             "(ID INTEGER PRIMARY KEY AUTOINCREMENT, ip TEXT, puerto INT)";
 
-    /*private static Database instance;
-
-    public static synchronized Database getInstance(Context context) {
-        if (instance == null) {
-            instance = new Database(context.getApplicationContext());
-        }
-        return instance;
-    }*/
 
     public Database(Context context) {
         super(context, NOMBRE, null, VERSION);
@@ -41,6 +33,7 @@ public class Database extends SQLiteOpenHelper{
         db.execSQL(ALUMNO);
         db.execSQL(PICTOGRAMA);
         db.execSQL(CONFIGURACION);
+        //this.cargarPictogramas();
     }
 
     @Override
@@ -51,9 +44,6 @@ public class Database extends SQLiteOpenHelper{
 
     public void nuevoAlumno(String nombre, String apellido, String sexo, String tamañoPictograma, String solapas){
         SQLiteDatabase db = getWritableDatabase();
-        /*if(db != null){
-            System.out.println("La base de datos no existe");
-        }*/
         try{
             ContentValues values = new ContentValues();
             values.put("nombre", nombre);
@@ -63,8 +53,19 @@ public class Database extends SQLiteOpenHelper{
             values.put("solapas", solapas);
             int id = (int)db.insert("alumno", null, values);
             db.close();
-            System.out.println(id);
-            //return id;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void agregarConfiguracion(String ip, Integer puerto){
+        SQLiteDatabase db = getWritableDatabase();
+        try{
+            ContentValues values = new ContentValues();
+            values.put("ip", ip);
+            values.put("puerto", puerto);
+            db.insert("configuracion", null, values);
+            db.close();
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,5 +85,89 @@ public class Database extends SQLiteOpenHelper{
             return listaAlumnos;
         }
         return listaAlumnos;
+    }
+
+    public Settings getConfiguracion(){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(" SELECT ip, puerto FROM configuracion", null);
+        if (c.moveToFirst()) {
+            Settings config;
+            do {
+                config = new Settings(c.getString(0), c.getInt(1));
+            } while (c.moveToNext());
+            db.close();
+            c.close();
+            return config;
+        }
+        return null;
+    }
+
+    public void modificarConfiguracion(String ip, Integer puerto){
+        SQLiteDatabase db = getWritableDatabase();
+        if(db != null){
+            ContentValues values = new ContentValues();
+            values.put("ip", ip);
+            values.put("puerto", puerto);
+            db.update("configuracion", values, "id= 1", null);
+            db.close();
+        }
+    }
+
+    private void cargarPictogramas(){
+        SQLiteDatabase db = getWritableDatabase();
+        try{
+            ContentValues values = new ContentValues();
+            values.put("ID", "caballo1");
+            values.put("nombre", "caballo");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+            values.put("ID", "caballo1");
+            values.put("nombre", "caballo");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+            values.put("ID", "caballo1");
+            values.put("nombre", "caballo");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+            values.put("ID", "caballo1");
+            values.put("nombre", "caballo");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+            values.put("ID", "caballo1");
+            values.put("nombre", "caballo");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+            values.put("ID", "caballo1");
+            values.put("nombre", "caballo");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);values.put("ID", "caballo1");
+            values.put("nombre", "caballo");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+            values.put("ID", "caballo1");
+            values.put("nombre", "caballo");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+            values.put("ID", "caballo1");
+            values.put("nombre", "caballo");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+            values.put("ID", "caballo1");
+            values.put("nombre", "caballo");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+            values.put("ID", "caballo1");
+            values.put("nombre", "caballo");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+            values.put("ID", "caballo1");
+            values.put("nombre", "caballo");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+
+            db.close();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
