@@ -5,4 +5,9 @@
     <string name="modo_edicion">Modo Edición</string>
     <string name="ajustes">Ajustes</string>
     <string name="nuevo_alumno">Nuev@ Alumn@</string>
+    <string-array name="sexo_array">
+        <item>Masculino</item>
+        <item>Femenino</item>
+    </string-array>
+
 </resources>
