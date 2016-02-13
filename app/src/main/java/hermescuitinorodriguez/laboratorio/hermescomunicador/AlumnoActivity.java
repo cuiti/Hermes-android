@@ -152,7 +152,7 @@ public class AlumnoActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_activity_main, container, false);
 
             gridView = (GridView) rootView.findViewById(R.id.grid_view);
-            this.inicializarGrilla(3, 18);
+            this.inicializarGrilla(Constantes.CANTIDAD_COLUMNAS, Constantes.PADDING_GRILLA);
 
             adapter = new GridViewImageAdapter(getActivity(), Datos.images.get(getArguments().getInt(ARG_SECTION_NUMBER)).ids, anchoColumna,Datos.images.get(getArguments().getInt(ARG_SECTION_NUMBER)).nombres, nombre, apellido);
 
