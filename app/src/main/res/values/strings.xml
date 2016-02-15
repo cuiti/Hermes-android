@@ -1,13 +1,25 @@
 <resources>
     <string name="app_name">Comunicador</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="section_format">Hello World from section: %1$d</string>
-    <string name="modo_edicion">Modo Edición</string>
     <string name="ajustes">Ajustes</string>
+    <string name="modo_edicion">Modo Edición</string>
     <string name="nuevo_alumno">Nuev@ Alumn@</string>
+    <string name="alumno_eliminar_titulo">Eliminar Alumno</string>
+    <string name="alumno_eliminar_mensaje">¿Seguro que desea eliminar al alumno?</string>
+    <string name="alumno_eliminar_confirmacion">Alumno eliminado</string>
+
     <string-array name="sexo_array">
         <item>Masculino</item>
         <item>Femenino</item>
     </string-array>
 
+    <string name="title_activity_ajustes">Ajustes</string>
+    <string name="nuevoAlumno">Alumn@</string>
+    <string name="nombreAlumno">Nombre</string>
+    <string name="apellidoAlumno">Apellido</string>
+    <string name="sexoAlumno">Sexo</string>
+    <string-array name="tamañoPictograma">
+        <item>Chico</item>
+        <item>Mediano</item>
+        <item>Grande</item>
+    </string-array>
 </resources>

@@ -1,14 +1,31 @@
 package hermescuitinorodriguez.laboratorio.hermescomunicador;
-/**
- * Created by Diego on 01/12/15.
- */
-public class Alumno {
+
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Alumno implements Serializable {
+    private String id;
     private String nombre;
     private String apellido;
+    private String sexo;
+    private String tamañoPictogramas;
+    private String pestañas;
 
-    public Alumno(String nombre, String apellido) {
+    public Alumno(String id, String nombre, String apellido, String sexo, String tamañoPictogramas, String pestañas){
+        this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
+        this.sexo = sexo;
+        this.tamañoPictogramas = tamañoPictogramas;
+        this.pestañas = pestañas;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -19,16 +36,41 @@ public class Alumno {
         this.nombre = nombre;
     }
 
-    public String getApellido() {
-        return apellido;
-    }
-
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
 
+    public String getApellido() {
+        return apellido;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getPestañas() {
+        return pestañas;
+    }
+
+    public void setPestañas(String pestañas) {
+        this.pestañas = pestañas;
+    }
+
+    public String getTamañoPictogramas() {
+        return tamañoPictogramas;
+    }
+
+    public void setTamañoPictogramas(String tamañoPictogramas) {
+        this.tamañoPictogramas = tamañoPictogramas;
+    }
+
     @Override
     public String toString() {
-        return this.getApellido()+", "+this.getNombre();
+        return nombre+ " " +apellido;
     }
 }
+

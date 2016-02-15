@@ -25,7 +25,11 @@
                 android:value="hermescuitinorodriguez.laboratorio.hermescomunicador.ComunicadorGrillaActivity" />
         </activity>
         <activity android:name=".AjustesActivity"
-            android:label="@string/ajustes">
+            android:label="@string/title_activity_ajustes"
+            android:parentActivityName=".ComunicadorGrillaActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="hermescuitinorodriguez.laboratorio.hermescomunicador.ComunicadorGrillaActivity" />
 
         </activity>
     </application>

@@ -41,9 +41,7 @@ public class AlumnoActivity extends AppCompatActivity {
     private GridView gridView;
     private int anchoColumna;
     private List<Integer> imagenes = new ArrayList<Integer>();
-    public String alumno;
-    String nombre;
-    String apellido;
+    private Alumno alumno;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -64,10 +62,7 @@ public class AlumnoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alumno);
-//        alumno = getIntent().getExtras().getString("alumno");
-        nombre = getIntent().getExtras().getString("nombre");
-        apellido = getIntent().getExtras().getString("apellido");
-
+        alumno = (Alumno)getIntent().getExtras().getSerializable("alumno");
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -80,7 +75,7 @@ public class AlumnoActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        setTitle(alumno);
+        setTitle(alumno.toString());
 
     }
 
@@ -136,13 +131,11 @@ public class AlumnoActivity extends AppCompatActivity {
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber,String nombre1,String apellido1) {
+        public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
-            nombre=nombre1;
-            apellido=apellido1;
             return fragment;
         }
 
@@ -200,8 +193,7 @@ public class AlumnoActivity extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
 
-
-            return PlaceholderFragment.newInstance(position + 1,nombre,apellido);
+            return PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override
@@ -222,7 +214,7 @@ public class AlumnoActivity extends AppCompatActivity {
                 case 3:
                     return "Emociones";
                 case 4:
-                    return alumno;
+                    return alumno.toString();
             }
             return null;
         }

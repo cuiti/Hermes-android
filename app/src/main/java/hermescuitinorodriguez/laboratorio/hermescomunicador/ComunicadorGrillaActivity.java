@@ -3,6 +3,8 @@ package hermescuitinorodriguez.laboratorio.hermescomunicador;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,64 +19,66 @@ import java.util.Map;
 
 public class ComunicadorGrillaActivity extends AppCompatActivity {
 
-    List<Map<String, Alumno>> alumnos = new ArrayList<Map<String,Alumno>>();
-    List<Alumno> alumnosList = new ArrayList<Alumno>();
+    ListView listaAlumnos;
     Button nuevoAlumno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-         super.onCreate(savedInstanceState);
-         inicializarListaMaps();
-         inicializarLista();
-         setContentView(R.layout.activity_comunicador_grilla);
-         ListView listView = (ListView) this.findViewById(R.id.list);
-         // ListAdapter adapter= new SimpleAdapter(this,alumnos,android.R.layout.simple_list_item_1, new String[] {"alumno"}, new int[] {android.R.id.text1});
-         ListAdapter adapter = new ArrayAdapter<Alumno>(this, android.R.layout.simple_list_item_1, alumnosList);
-
-         listView.setAdapter(adapter);
-         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-             @Override
-             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                 // Toast.makeText(ComunicadorGrillaActivity.this, adapterView.getAdapter().getItem(i).toString(), Toast.LENGTH_SHORT);
-                 System.out.println(adapterView.getAdapter().getItem(position).toString());
-                 Intent intent = new Intent(ComunicadorGrillaActivity.this, AlumnoActivity.class);
-
-                 Alumno alum = (Alumno) adapterView.getAdapter().getItem(position);
-//                 intent.putExtra("alumno", adapterView.getAdapter().getItem(position).toString());
-                 String nombre = alum.getNombre();
-                 String apellido = alum.getApellido();
-                 intent.putExtra("nombre", nombre);
-                 intent.putExtra("apellido", apellido);
-                 startActivity(intent);
-             }
-         });
-
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_comunicador_grilla);
+        Database db = new Database(this);
+        ArrayList<Alumno> lista = db.listaAlumnos();
+        listaAlumnos = (ListView) findViewById(R.id.list);
+        ListAdapter adapter = new ArrayAdapter<Alumno>(this, android.R.layout.simple_list_item_1, lista);
+        listaAlumnos.setAdapter(adapter);
+        listaAlumnos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent = new Intent(ComunicadorGrillaActivity.this, AlumnoActivity.class);
+                Alumno alumno = (Alumno) adapterView.getAdapter().getItem(position);
+                intent.putExtra("alumno", alumno);
+                startActivity(intent);
+            }
+        });
+        setTitle("Lista de Alumnos");
         nuevoAlumno = (Button) findViewById(R.id.nuevoAlumno);
         nuevoAlumno.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // test
+                Database database = new Database(getApplicationContext());
+                database.getWritableDatabase();
+                database.nuevoAlumno("jaun", "perez", "femenino", "mediano", "establo");
+
                 Intent intent = new Intent(ComunicadorGrillaActivity.this, AjustesActivity.class);
+                Alumno alumno = null; // Para evitar un null point exception
+                intent.putExtra("alumno", alumno);
                 startActivity(intent);
+                finish();
             }
         });
     }
 
-    private void inicializarListaMaps() {
-        alumnos.add(crearAlumno("alumno", new Alumno("Carlos", "Ferro")));
-        alumnos.add(crearAlumno("alumno", new Alumno("Guillermo", "Coppola")));
-        alumnos.add(crearAlumno("alumno", new Alumno("Diego", "Maradona")));
+/*    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_lista_alumnos, menu);
+        return true;
     }
 
-    private void inicializarLista() {
-        alumnosList.add(new Alumno("Carlos", "Ferro Viera"));
-        alumnosList.add(new Alumno("Guillote", "Coppola"));
-        alumnosList.add(new Alumno("Diego", "Maradona"));
-    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-    private HashMap<String, Alumno> crearAlumno(String key, Alumno alumno) {
-        HashMap<String, Alumno>  alumnoMap = new HashMap<String, Alumno>();
-        alumnoMap.put(key, alumno);
-        return alumnoMap;
-    }
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }*/
 
 }

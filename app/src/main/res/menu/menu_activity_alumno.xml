@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
-        android:id="@+id/modo_edicion"
-        android:title="@string/modo_edicion"
+        android:id="@+id/ajustes"
+        android:title="@string/ajustes"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/ajustes"
-        android:title="@string/ajustes"
+        android:id="@+id/modo_edicion"
+        android:title="@string/modo_edicion"
         app:showAsAction="never" />
 
 </menu>

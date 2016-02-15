@@ -1,64 +1,144 @@
 package hermescuitinorodriguez.laboratorio.hermescomunicador;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Spinner;
+import android.content.DialogInterface;
+import android.widget.Toast;
 
 public class AjustesActivity extends AppCompatActivity {
 
-/*    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ajustes);
-
-        Intent intent = getIntent();
-        String alumno = intent.getStringExtra("alumno");
-        TextView textView = (TextView) findViewById(R.id.datos_alumno);
-        textView.setText(alumno);
-
-    }*/
-
     TextView nombreAlumno;
     TextView apellidoAlumno;
-    Button guardar;
-
-
+    TextView sexoAlumno;
+    TextView direccionIP;
+    TextView puerto;
+    Database db;
+    Settings configuracion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajustes);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Spinner spinner = (Spinner) findViewById(R.id.sexo_spinner);
+//        Spinner spinner = (Spinner) findViewById(R.id.sexo_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sexo_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+//        spinner.setAdapter(adapter);
+
+        db = new Database(this);
+        configuracion = db.getConfiguracion();
 
         nombreAlumno = (TextView) findViewById(R.id.nombreAlumno);
         apellidoAlumno = (TextView) findViewById(R.id.apellidoAlumno);
-        guardar =   (Button) findViewById(R.id.guardar);
-        guardar.setOnClickListener(new View.OnClickListener() {
+        sexoAlumno = (TextView) findViewById(R.id.sexoAlumno);
+        direccionIP = (TextView) findViewById(R.id.direccionIP);
+        puerto = (TextView) findViewById(R.id.puerto);
+
+        Alumno alumno = (Alumno)getIntent().getExtras().getSerializable("alumno");
+        if (alumno != null) {
+            nombreAlumno.setText(alumno.getNombre());
+            apellidoAlumno.setText(alumno.getApellido());
+            sexoAlumno.setText(alumno.getSexo());
+        }
+
+        if (configuracion != null) {
+            direccionIP.setText(configuracion.getDireccionIP());
+            puerto.setText(configuracion.getPuerto().toString());
+        }
+//        guardar =   (Button) findViewById(R.id.guardar);
+/*        guardar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 nuevoAlumno();
             }
-        });
+        });*/
+
+/*        Button eliminar = (Button) findViewById(R.id.eliminarAlumno);
+        eliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AjustesActivity.this, ComunicadorGrillaActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });*/
     }
 
     protected void nuevoAlumno(){
         String nombre = nombreAlumno.getText().toString();
         String apellido = apellidoAlumno.getText().toString();
-        Database database = new Database(getApplicationContext());
-        database.getWritableDatabase();
-        database.nuevoAlumno(nombre, apellido, "femenino", "mediano", "establo");
+        String sexo = sexoAlumno.getText().toString();
+        String tamañoPictograma = "";
+
+        if ((nombre != null && nombre != "") || (apellido != null && apellido != "")) {
+            Database database = new Database(getApplicationContext());
+            database.getWritableDatabase();
+            database.nuevoAlumno(nombre, apellido, sexo, tamañoPictograma, "establo");
+        }
+        String ip = direccionIP.getText().toString();
+        Integer puertoC = Integer.parseInt(puerto.getText().toString());
+        if (configuracion == null && (ip != null && ip != "" && puertoC != null)){
+            db.agregarConfiguracion(ip, puertoC);
+        }else{
+            if((configuracion.getDireccionIP() != ip && ip != null && ip != "") || (configuracion.getPuerto() != puertoC && puertoC != null)){
+                db.modificarConfiguracion(ip, puertoC);
+            }
+        }
+    }
+
+    public void borrar(View view)
+    {
+        /**
+         * Borramos el registro con confirmación
+         */
+        AlertDialog.Builder dialogEliminar = new AlertDialog.Builder(this);
+
+        dialogEliminar.setIcon(android.R.drawable.ic_dialog_alert);
+        dialogEliminar.setTitle(getResources().getString(R.string.alumno_eliminar_titulo));
+        dialogEliminar.setMessage(getResources().getString(R.string.alumno_eliminar_mensaje));
+        dialogEliminar.setCancelable(false);
+
+        dialogEliminar.setPositiveButton(getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int boton) {
+                //dbAdapter.delete(id);
+                Toast.makeText(AjustesActivity.this, R.string.alumno_eliminar_confirmacion, Toast.LENGTH_SHORT).show();
+                /**
+                 * Devolvemos el control
+                 */
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
+
+        dialogEliminar.setNegativeButton(android.R.string.no, null);
+
+        dialogEliminar.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_activity_alumno, menu);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, ComunicadorGrillaActivity.class);
+        startActivity(intent);
     }
 
     /*public void onCheckboxClicked(View view) {

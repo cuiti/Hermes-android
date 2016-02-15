@@ -71,13 +71,30 @@ public class Database extends SQLiteOpenHelper{
         }
     }
 
-    public ArrayList<Alumno> listaAlumnos() {
+/*    public ArrayList<Alumno> listaAlumnos() {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<Alumno> listaAlumnos = new ArrayList<Alumno>();
         Cursor c = db.rawQuery(" SELECT nombre, apellido FROM alumno", null);
         if (c.moveToFirst()) {
             do {
                 Alumno alumno = new Alumno(c.getString(0), c.getString(1));
+                listaAlumnos.add(alumno);
+            } while (c.moveToNext());
+            db.close();
+            c.close();
+            return listaAlumnos;
+        }
+        return listaAlumnos;
+    }*/
+
+    public ArrayList<Alumno> listaAlumnos() {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<Alumno> listaAlumnos = new ArrayList<Alumno>();
+        Cursor c = db.rawQuery(" SELECT * FROM alumno", null);
+        if (c.moveToFirst()) {
+            do {
+                Alumno alumno = new Alumno(c.getString(0), c.getString(1), c.getString(2), c.getString(3),
+                c.getString(4), c.getString(5));
                 listaAlumnos.add(alumno);
             } while (c.moveToNext());
             db.close();

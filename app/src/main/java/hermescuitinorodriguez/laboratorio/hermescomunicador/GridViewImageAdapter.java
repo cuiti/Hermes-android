@@ -78,7 +78,7 @@ public class GridViewImageAdapter extends BaseAdapter {
 
                 String nombreContenido = _activity.getResources().getResourceEntryName(soundId);
                 //ToDo: conseguir la categoria
-                NotificacionDTO notiDTO = new NotificacionDTO(apellido, nombre, "categoriaHardcoded", "Cedica", nombreContenido); //el contexto no se usa, así que queda hardocdeado como Cedica
+                NotificacionDTO notiDTO = new NotificacionDTO(apellido, nombre, "categoriaHardcoded", "Cedica", nombreContenido); //el contexto no se usa, asi que queda hardocdeado como Cedica
                 List<NotificacionDTO> lista = new ArrayList<NotificacionDTO>();
                 lista.add(notiDTO);
 
