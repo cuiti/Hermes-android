@@ -6,6 +6,7 @@
     <string name="alumno_eliminar_titulo">Eliminar Alumno</string>
     <string name="alumno_eliminar_mensaje">¿Seguro que desea eliminar al alumno?</string>
     <string name="alumno_eliminar_confirmacion">Alumno eliminado</string>
+    <string name="alumno_guardar_confirmacion">Alumno guardado</string>
 
     <string-array name="sexo_array">
         <item>Masculino</item>

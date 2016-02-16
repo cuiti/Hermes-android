@@ -59,34 +59,20 @@ public class AjustesActivity extends AppCompatActivity {
             direccionIP.setText(configuracion.getDireccionIP());
             puerto.setText(configuracion.getPuerto().toString());
         }
-//        guardar =   (Button) findViewById(R.id.guardar);
-/*        guardar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                nuevoAlumno();
-            }
-        });*/
-
-/*        Button eliminar = (Button) findViewById(R.id.eliminarAlumno);
-        eliminar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AjustesActivity.this, ComunicadorGrillaActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });*/
     }
 
-    protected void nuevoAlumno(){
+    public void nuevoAlumno(View view) {
         String nombre = nombreAlumno.getText().toString();
         String apellido = apellidoAlumno.getText().toString();
         String sexo = sexoAlumno.getText().toString();
         String tamañoPictograma = "";
 
-        if ((nombre != null && nombre != "") || (apellido != null && apellido != "")) {
+        if ((nombre != null && nombre != "") || (apellido != null && apellido != "") || (sexo != null && sexo != "")) {
             Database database = new Database(getApplicationContext());
             database.getWritableDatabase();
             database.nuevoAlumno(nombre, apellido, sexo, tamañoPictograma, "establo");
+            Toast.makeText(AjustesActivity.this, R.string.alumno_guardar_confirmacion, Toast.LENGTH_SHORT).show();
+
         }
         String ip = direccionIP.getText().toString();
         Integer puertoC = Integer.parseInt(puerto.getText().toString());
@@ -97,6 +83,10 @@ public class AjustesActivity extends AppCompatActivity {
                 db.modificarConfiguracion(ip, puertoC);
             }
         }
+        Intent intent = new Intent(this, ComunicadorGrillaActivity.class);
+        startActivity(intent);
+        finish();
+
     }
 
     public void borrar(View view)
@@ -135,11 +125,11 @@ public class AjustesActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
+/*    @Override
     public void onBackPressed(){
         Intent intent = new Intent(this, ComunicadorGrillaActivity.class);
         startActivity(intent);
-    }
+    }*/
 
     /*public void onCheckboxClicked(View view) {
 

@@ -45,16 +45,10 @@ public class ComunicadorGrillaActivity extends AppCompatActivity {
         nuevoAlumno.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // test
-                Database database = new Database(getApplicationContext());
-                database.getWritableDatabase();
-                database.nuevoAlumno("jaun", "perez", "femenino", "mediano", "establo");
-
                 Intent intent = new Intent(ComunicadorGrillaActivity.this, AjustesActivity.class);
                 Alumno alumno = null; // Para evitar un null point exception
                 intent.putExtra("alumno", alumno);
                 startActivity(intent);
-                finish();
             }
         });
     }

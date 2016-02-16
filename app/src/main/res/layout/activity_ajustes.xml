@@ -200,6 +200,15 @@
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/textView8" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guardar Alumno"
+                android:id="@+id/button"
+                android:onClick="nuevoAlumno"
+                android:layout_below="@+id/checkNecesidades"
+                android:layout_toEndOf="@+id/textView7" />
+
         </RelativeLayout>
     </ScrollView>
 
