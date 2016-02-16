@@ -93,7 +93,7 @@ public class Database extends SQLiteOpenHelper{
         Cursor c = db.rawQuery(" SELECT * FROM alumno", null);
         if (c.moveToFirst()) {
             do {
-                Alumno alumno = new Alumno(c.getString(0), c.getString(1), c.getString(2), c.getString(3),
+                Alumno alumno = new Alumno(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),
                 c.getString(4), c.getString(5));
                 listaAlumnos.add(alumno);
             } while (c.moveToNext());
@@ -128,6 +128,34 @@ public class Database extends SQLiteOpenHelper{
             db.update("configuracion", values, "id= 1", null);
             db.close();
         }
+    }
+
+    public Alumno modificarAlumno(int id, String nombre, String apellido, String sexo, String tamañoPictograma, String solapas){
+        SQLiteDatabase db = getWritableDatabase();
+        if(db != null){
+            ContentValues values = new ContentValues();
+            values.put("nombre", nombre);
+            values.put("apellido", apellido);
+            values.put("sexo", sexo);
+            values.put("tamañoPictogramas", tamañoPictograma);
+            values.put("solapas", solapas);
+            db.update("alumno", values, "id="+id, null);
+            db.close();
+        }
+        return getAlumno(id);
+    }
+
+    public Alumno getAlumno(int id){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(" SELECT * FROM alumno WHERE id=" + id, null);
+        if(c != null) {
+            c.moveToFirst();
+        }
+        Alumno alumno = new Alumno(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),
+                c.getString(4), c.getString(5));
+        db.close();
+        c.close();
+        return alumno;
     }
 
     private void cargarPictogramas(){
@@ -186,5 +214,11 @@ public class Database extends SQLiteOpenHelper{
         }catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void borrarAlumno(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("alumno", "id="+id, null);
+        db.close();
     }
 }

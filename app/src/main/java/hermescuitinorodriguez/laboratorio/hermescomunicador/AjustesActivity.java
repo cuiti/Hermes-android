@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,6 +25,7 @@ public class AjustesActivity extends AppCompatActivity {
     TextView puerto;
     Database db;
     Settings configuracion;
+    Alumno alumno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,7 @@ public class AjustesActivity extends AppCompatActivity {
         direccionIP = (TextView) findViewById(R.id.direccionIP);
         puerto = (TextView) findViewById(R.id.puerto);
 
-        Alumno alumno = (Alumno)getIntent().getExtras().getSerializable("alumno");
+        alumno = (Alumno)getIntent().getExtras().getSerializable("alumno");
         if (alumno != null) {
             nombreAlumno.setText(alumno.getNombre());
             apellidoAlumno.setText(alumno.getApellido());
@@ -61,7 +63,43 @@ public class AjustesActivity extends AppCompatActivity {
         }
     }
 
-    public void nuevoAlumno(View view) {
+    public void guardar(View view){
+        if (alumno != null){
+            modificarAlumno();
+        }else{
+            nuevoAlumno();
+        }
+        String ip = direccionIP.getText().toString();
+        Integer puertoC = Integer.parseInt(puerto.getText().toString());
+        if (configuracion == null && (ip != null && ip != "" && puertoC != null)){
+            db.agregarConfiguracion(ip, puertoC);
+        }else{
+            if((configuracion.getDireccionIP() != ip && ip != null && ip != "") || (configuracion.getPuerto() != puertoC && puertoC != null)){
+                db.modificarConfiguracion(ip, puertoC);
+            }
+        }
+        if (alumno != null){
+            Intent intent = new Intent(this, AlumnoActivity.class);
+            intent.putExtra("alumno", alumno);
+            startActivity(intent);
+            finish();
+        }else {
+            Intent intent = new Intent(this, ComunicadorGrillaActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    private void modificarAlumno(){
+        String nombre = nombreAlumno.getText().toString();
+        String apellido = apellidoAlumno.getText().toString();
+        String sexo = sexoAlumno.getText().toString();
+        String tamañoPictograma = "";
+        alumno = db.modificarAlumno(alumno.getId(), nombre, apellido, sexo, tamañoPictograma, "establo");
+        Toast.makeText(AjustesActivity.this, R.string.alumno_guardar_confirmacion, Toast.LENGTH_SHORT).show();
+    }
+
+    public void nuevoAlumno() {
         String nombre = nombreAlumno.getText().toString();
         String apellido = apellidoAlumno.getText().toString();
         String sexo = sexoAlumno.getText().toString();
@@ -74,18 +112,6 @@ public class AjustesActivity extends AppCompatActivity {
             Toast.makeText(AjustesActivity.this, R.string.alumno_guardar_confirmacion, Toast.LENGTH_SHORT).show();
 
         }
-        String ip = direccionIP.getText().toString();
-        Integer puertoC = Integer.parseInt(puerto.getText().toString());
-        if (configuracion == null && (ip != null && ip != "" && puertoC != null)){
-            db.agregarConfiguracion(ip, puertoC);
-        }else{
-            if((configuracion.getDireccionIP() != ip && ip != null && ip != "") || (configuracion.getPuerto() != puertoC && puertoC != null)){
-                db.modificarConfiguracion(ip, puertoC);
-            }
-        }
-        Intent intent = new Intent(this, ComunicadorGrillaActivity.class);
-        startActivity(intent);
-        finish();
 
     }
 
@@ -105,11 +131,16 @@ public class AjustesActivity extends AppCompatActivity {
 
             public void onClick(DialogInterface dialog, int boton) {
                 //dbAdapter.delete(id);
+                Database database = new Database(getApplicationContext());
+                database.getWritableDatabase();
+                database.borrarAlumno(alumno.getId());
                 Toast.makeText(AjustesActivity.this, R.string.alumno_eliminar_confirmacion, Toast.LENGTH_SHORT).show();
                 /**
                  * Devolvemos el control
                  */
                 setResult(RESULT_OK);
+                Intent intent = new Intent(AjustesActivity.this, ComunicadorGrillaActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -125,11 +156,28 @@ public class AjustesActivity extends AppCompatActivity {
         return true;
     }
 
-/*    @Override
+   @Override
     public void onBackPressed(){
-        Intent intent = new Intent(this, ComunicadorGrillaActivity.class);
-        startActivity(intent);
-    }*/
+       if (alumno != null){
+           Intent intent = new Intent(this, AlumnoActivity.class);
+           intent.putExtra("alumno", alumno);
+           startActivity(intent);
+           finish();
+       }else {
+           Intent intent = new Intent(this, ComunicadorGrillaActivity.class);
+           startActivity(intent);
+           finish();
+       }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if(id == android.R.id.home){
+            this.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     /*public void onCheckboxClicked(View view) {
 

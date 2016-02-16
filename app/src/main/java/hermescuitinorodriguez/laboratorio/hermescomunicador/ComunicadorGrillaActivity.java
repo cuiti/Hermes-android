@@ -49,6 +49,7 @@ public class ComunicadorGrillaActivity extends AppCompatActivity {
                 Alumno alumno = null; // Para evitar un null point exception
                 intent.putExtra("alumno", alumno);
                 startActivity(intent);
+                finish();
             }
         });
     }

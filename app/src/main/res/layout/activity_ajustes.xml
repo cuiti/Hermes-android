@@ -205,7 +205,7 @@
                 android:layout_height="wrap_content"
                 android:text="Guardar Alumno"
                 android:id="@+id/button"
-                android:onClick="nuevoAlumno"
+                android:onClick="guardar"
                 android:layout_below="@+id/checkNecesidades"
                 android:layout_toEndOf="@+id/textView7" />
 

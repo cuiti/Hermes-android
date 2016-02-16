@@ -97,7 +97,7 @@ public class AlumnoActivity extends AppCompatActivity {
                 Intent intent = new Intent(AlumnoActivity.this, AjustesActivity.class);
                 intent.putExtra("alumno", alumno);
                 startActivity(intent);
-                return true;
+                finish();
             case R.id.modo_edicion:
                 // modo edición
                 return true;

@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class Alumno implements Serializable {
-    private String id;
+    private int id;
     private String nombre;
     private String apellido;
     private String sexo;
     private String tamañoPictogramas;
     private String pestañas;
 
-    public Alumno(String id, String nombre, String apellido, String sexo, String tamañoPictogramas, String pestañas){
+    public Alumno(int id, String nombre, String apellido, String sexo, String tamañoPictogramas, String pestañas){
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -20,11 +20,11 @@ public class Alumno implements Serializable {
         this.pestañas = pestañas;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
