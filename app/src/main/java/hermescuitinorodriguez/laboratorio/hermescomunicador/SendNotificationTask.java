@@ -1,5 +1,6 @@
 package hermescuitinorodriguez.laboratorio.hermescomunicador;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
@@ -31,7 +32,9 @@ public class SendNotificationTask extends AsyncTask{
 
         System.out.println(listaNotiJson);
 
-        String url = "http://192.168.43.70:"+"8000"+"/hermes";       //192.168.0.27 ToDo direccion y puerto tienen que venir de config
+        Database db = new Database((Context)params[1]);
+        Settings settings = db.getConfiguracion();
+        String url = "http://"+settings.getDireccionIP()+":"+settings.getPuerto()+"/hermes";
 
         OutputStream os = null;
         HttpURLConnection conn=null;

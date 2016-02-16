@@ -204,7 +204,8 @@ public class AlumnoActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
+
+        /*   switch (position) {
                 case 0:
                     return "Pista";
                 case 1:
@@ -215,8 +216,17 @@ public class AlumnoActivity extends AppCompatActivity {
                     return "Emociones";
                 case 4:
                     return alumno.toString();
+            }*/
+
+            String[] solapas = alumno.getPestañas().split(","); //los nombres de las solapas están separadas por comas
+
+            if (position < solapas.length) {
+                return solapas[position];
+            }else if(position==solapas.length){
+                return alumno.toString();
+            }else{
+                return null;
             }
-            return null;
         }
     }
 }

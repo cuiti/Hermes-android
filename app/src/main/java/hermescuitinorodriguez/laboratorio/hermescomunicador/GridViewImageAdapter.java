@@ -82,7 +82,7 @@ public class GridViewImageAdapter extends BaseAdapter {
                 List<NotificacionDTO> lista = new ArrayList<NotificacionDTO>();
                 lista.add(notiDTO);
 
-                new SendNotificationTask().execute(lista);
+                new SendNotificationTask().execute(lista,_activity.getApplicationContext());
 
 			}
 		});
