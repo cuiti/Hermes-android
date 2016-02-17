@@ -26,6 +26,7 @@ public class AjustesActivity extends AppCompatActivity {
     Database db;
     Settings configuracion;
     Alumno alumno;
+    String pestañas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,12 @@ public class AjustesActivity extends AppCompatActivity {
             nombreAlumno.setText(alumno.getNombre());
             apellidoAlumno.setText(alumno.getApellido());
             sexoAlumno.setText(alumno.getSexo());
+            pestañas = alumno.getPestañas();
+        }else{
+            Button botonEliminar = (Button) findViewById(R.id.eliminarAlumno);
+            botonEliminar.setEnabled(false);
         }
+
 
         if (configuracion != null) {
             direccionIP.setText(configuracion.getDireccionIP());
@@ -95,7 +101,7 @@ public class AjustesActivity extends AppCompatActivity {
         String apellido = apellidoAlumno.getText().toString();
         String sexo = sexoAlumno.getText().toString();
         String tamañoPictograma = "";
-        alumno = db.modificarAlumno(alumno.getId(), nombre, apellido, sexo, tamañoPictograma, "establo");
+        alumno = db.modificarAlumno(alumno.getId(), nombre, apellido, sexo, tamañoPictograma, pestañas);
         Toast.makeText(AjustesActivity.this, R.string.alumno_guardar_confirmacion, Toast.LENGTH_SHORT).show();
     }
 
@@ -108,7 +114,7 @@ public class AjustesActivity extends AppCompatActivity {
         if ((nombre != null && nombre != "") || (apellido != null && apellido != "") || (sexo != null && sexo != "")) {
             Database database = new Database(getApplicationContext());
             database.getWritableDatabase();
-            database.nuevoAlumno(nombre, apellido, sexo, tamañoPictograma, "establo");
+            database.nuevoAlumno(nombre, apellido, sexo, tamañoPictograma, pestañas);
             Toast.makeText(AjustesActivity.this, R.string.alumno_guardar_confirmacion, Toast.LENGTH_SHORT).show();
 
         }
@@ -179,27 +185,32 @@ public class AjustesActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*public void onCheckboxClicked(View view) {
+    public void onCheckboxClicked(View view) {
 
         boolean checked = ((CheckBox) view).isChecked();
+
+        String solapas = "";
 
         switch(view.getId()) {
             case R.id.checkbox_pista:
                 if (checked)
-                // agregar pestaña pista
+                    solapas += "pista,";
                 break;
             case R.id.checkbox_establo:
                 if (checked)
-                // agregar pestaña establo
+                    solapas += "establo,";
                 break;
             case R.id.checkbox_necesidades:
                 if (checked)
-                // agregar pestaña necesidades
+                    solapas += "necesidades,";
                 break;
             case R.id.checkbox_emociones:
                 if (checked)
-                // agregar pestaña emociones
+                    solapas += "emociones,";
                 break;
         }
-    }*/
+
+        pestañas = solapas;
+
+    }
 }
