@@ -19,6 +19,7 @@
     <string name="nombreAlumno">Nombre</string>
     <string name="apellidoAlumno">Apellido</string>
     <string name="sexoAlumno">Sexo</string>
+    <string name="modo_alumno">Modo alumno</string>
     <string-array name="tamañoPictograma">
         <item>Chico</item>
         <item>Mediano</item>

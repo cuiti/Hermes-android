@@ -37,6 +37,7 @@ public class ComunicadorGrillaActivity extends AppCompatActivity {
                 Intent intent = new Intent(ComunicadorGrillaActivity.this, AlumnoActivity.class);
                 Alumno alumno = (Alumno) adapterView.getAdapter().getItem(position);
                 intent.putExtra("alumno", alumno);
+                intent.putExtra("modoEdicion", false);
                 startActivity(intent);
             }
         });

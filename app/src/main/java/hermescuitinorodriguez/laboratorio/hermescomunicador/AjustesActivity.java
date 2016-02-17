@@ -103,11 +103,13 @@ public class AjustesActivity extends AppCompatActivity {
             nuevoAlumno();
         }
         String ip = direccionIP.getText().toString();
-        Integer puertoC = Integer.parseInt(puerto.getText().toString());
-        if (configuracion == null && (ip != null && ip != "" && puertoC != null)){
+        Integer puertoC = puerto.getText() != null ? Integer.parseInt(puerto.getText().toString()): null;
+        System.out.println(ip);
+        System.out.println(puertoC);
+        if (configuracion == null && (ip != null && ip.length() != 0 && puertoC != null)){
             db.agregarConfiguracion(ip, puertoC);
         }else{
-            if((configuracion.getDireccionIP() != ip && ip != null && ip != "") || (configuracion.getPuerto() != puertoC && puertoC != null)){
+            if (configuracion != null && ((configuracion.getDireccionIP() != ip && ip != null && ip.length() != 0) || (configuracion.getPuerto() != puertoC && puertoC != null))){
                 db.modificarConfiguracion(ip, puertoC);
             }
         }
@@ -138,11 +140,13 @@ public class AjustesActivity extends AppCompatActivity {
         String sexo = sexoAlumno.getText().toString();
         String tamañoPictograma = "";
 
-        if ((nombre != null && nombre != "") && (apellido != null && apellido != "") && (sexo != null && sexo != "")) {
+        if ((nombre != null && nombre.length() != 0) && (apellido != null && apellido.length() != 0) && (sexo != null && sexo.length() != 0)) {
             Database database = new Database(getApplicationContext());
             database.getWritableDatabase();
             database.nuevoAlumno(nombre, apellido, sexo, tamañoPictograma, pestañas);
             Toast.makeText(AjustesActivity.this, R.string.alumno_guardar_confirmacion, Toast.LENGTH_SHORT).show();
+        }else{
+            System.out.println("Complete los campos!");
         }
     }
 
@@ -226,6 +230,7 @@ public class AjustesActivity extends AppCompatActivity {
             solapas += "emociones,";
         }
 
+        solapas = solapas.substring(0, solapas.length()-1);
         pestañas = solapas;
     }
 }

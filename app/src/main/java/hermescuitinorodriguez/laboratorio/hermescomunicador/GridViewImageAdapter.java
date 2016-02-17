@@ -30,15 +30,19 @@ public class GridViewImageAdapter extends BaseAdapter {
 	private int imageWidth;
 	private List<String> audios = new ArrayList<String>();
 	public String tag;
+	public Boolean modoEdicion;
+	public Alumno alumno;
 
-	public GridViewImageAdapter(Activity activity, List<Integer> listaIdImagenes,
-			int imageWidth, List<String> listaNombreImagenes, String nombre, String apellido) {
+	public GridViewImageAdapter(Activity activity, List<Integer> listaIdImagenes, Alumno alumno,
+			int imageWidth, List<String> listaNombreImagenes, Boolean modo) {
 		this._activity = activity;
 		this.listaIdImagenes = listaIdImagenes;
 		this.imageWidth = imageWidth;
 		this.audios = listaNombreImagenes;
-        this.nombre=nombre;
-        this.apellido=apellido;
+        this.nombre=alumno.getNombre();
+        this.apellido=alumno.getApellido();
+		this.modoEdicion = modo;
+		this.alumno = alumno;
 	}
 
 	@Override
@@ -68,23 +72,29 @@ public class GridViewImageAdapter extends BaseAdapter {
 
 		imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		imageView.setLayoutParams(new GridView.LayoutParams(imageWidth, imageWidth));
-		//imageView.setImageDrawable(_activity.getResources().getDrawable(this.listaIdImagenes.get(position)));
 		((AlumnoActivity) _activity).loadBitmap(this.listaIdImagenes.get(position), imageView);
 		imageView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				int soundId = _activity.getResources().getIdentifier(audios.get(position), "raw", _activity.getPackageName());
-				MediaPlayer mediaPlayer = MediaPlayer.create(_activity, soundId);
-				mediaPlayer.start();
+				if (!modoEdicion) {
+					int soundId = _activity.getResources().getIdentifier(audios.get(position), "raw", _activity.getPackageName());
+					MediaPlayer mediaPlayer = MediaPlayer.create(_activity, soundId);
+					mediaPlayer.start();
 
-                String nombreContenido = _activity.getResources().getResourceEntryName(soundId);
-                Database db = new Database(_activity);
-				String categoria = db.getCategoria(nombreContenido);
-                NotificacionDTO notiDTO = new NotificacionDTO(apellido, nombre, categoria, "Cedica", nombreContenido); //el contexto no se usa, asi que queda hardocdeado como Cedica
-                List<NotificacionDTO> lista = new ArrayList<NotificacionDTO>();
-                lista.add(notiDTO);
+					String nombreContenido = _activity.getResources().getResourceEntryName(soundId);
+					Database db = new Database(_activity);
+					String categoria = db.getCategoria(nombreContenido);
+					NotificacionDTO notiDTO = new NotificacionDTO(apellido, nombre, categoria, "Cedica", nombreContenido); //el contexto no se usa, asi que queda hardocdeado como Cedica
+					List<NotificacionDTO> lista = new ArrayList<NotificacionDTO>();
+					lista.add(notiDTO);
 
-                new SendNotificationTask().execute(lista,_activity.getApplicationContext());
+					new SendNotificationTask().execute(lista, _activity.getApplicationContext());
+				} else {
+					Database db = new Database(_activity);
+					int soundId = _activity.getResources().getIdentifier(audios.get(position), "raw", _activity.getPackageName());
+					String nombreContenido = _activity.getResources().getResourceEntryName(soundId);
+					db.cargarPictogramaAlumno(alumno.getId(), nombreContenido);
+				}
 
 			}
 		});

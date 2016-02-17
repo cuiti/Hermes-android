@@ -23,6 +23,10 @@ public class Database extends SQLiteOpenHelper{
     private static final String CONFIGURACION = "CREATE TABLE configuracion"+
             "(ID INTEGER PRIMARY KEY AUTOINCREMENT, ip TEXT, puerto INT)";
 
+    private  static final String PICTOGRAMA_ALUMNO = "CREATE TABLE pictograma_alumno"+
+            "(ID INTEGER PRIMARY KEY AUTOINCREMENT,  alumno_id INTEGER, pictograma_id TEXT," +
+            "  FOREIGN KEY(alumno_id) REFERENCES alumno(id), FOREIGN KEY(pictograma_id) REFERENCES pictograma(id))";
+
 
     public Database(Context context) {
         super(context, NOMBRE, null, VERSION);
@@ -33,6 +37,7 @@ public class Database extends SQLiteOpenHelper{
         db.execSQL(ALUMNO);
         db.execSQL(PICTOGRAMA);
         db.execSQL(CONFIGURACION);
+        db.execSQL(PICTOGRAMA_ALUMNO);
         this.cargarPictogramas(db);
     }
 
@@ -51,7 +56,20 @@ public class Database extends SQLiteOpenHelper{
             values.put("sexo", sexo);
             values.put("tamañoPictogramas", tamañoPictograma);
             values.put("solapas", solapas);
-            int id = (int)db.insert("alumno", null, values);
+            db.insert("alumno", null, values);
+            db.close();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cargarPictogramaAlumno(int alumno, String pictograma){
+        SQLiteDatabase db = getWritableDatabase();
+        try{
+            ContentValues values = new ContentValues();
+            values.put("alumno_id", alumno);
+            values.put("pictograma_id", pictograma);
+            db.insert("pictograma_alumno", null, values);
             db.close();
         }catch (Exception e) {
             e.printStackTrace();
@@ -71,21 +89,6 @@ public class Database extends SQLiteOpenHelper{
         }
     }
 
-/*    public ArrayList<Alumno> listaAlumnos() {
-        SQLiteDatabase db = getReadableDatabase();
-        ArrayList<Alumno> listaAlumnos = new ArrayList<Alumno>();
-        Cursor c = db.rawQuery(" SELECT nombre, apellido FROM alumno", null);
-        if (c.moveToFirst()) {
-            do {
-                Alumno alumno = new Alumno(c.getString(0), c.getString(1));
-                listaAlumnos.add(alumno);
-            } while (c.moveToNext());
-            db.close();
-            c.close();
-            return listaAlumnos;
-        }
-        return listaAlumnos;
-    }*/
 
     public ArrayList<Alumno> listaAlumnos() {
         SQLiteDatabase db = getReadableDatabase();
@@ -257,12 +260,12 @@ public class Database extends SQLiteOpenHelper{
             values.put("carpeta", "pista");
             db.insert("pictograma", null, values);
 
-            values.put("ID", "dolorida");
+            values.put("ID", "meduelef");
             values.put("nombre", "dolorida");
             values.put("carpeta", "emociones");
             db.insert("pictograma", null, values);
 
-            values.put("ID", "dolorido");
+            values.put("ID", "meduelem");
             values.put("nombre", "dolorido");
             values.put("carpeta", "emociones");
             db.insert("pictograma", null, values);
@@ -371,8 +374,6 @@ public class Database extends SQLiteOpenHelper{
             values.put("nombre", "zanahoria");
             values.put("carpeta", "establo");
             db.insert("pictograma", null, values);
-
-            //db.close();
         }catch (Exception e) {
             e.printStackTrace();
         }

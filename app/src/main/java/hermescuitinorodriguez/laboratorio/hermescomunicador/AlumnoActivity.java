@@ -42,6 +42,7 @@ public class AlumnoActivity extends AppCompatActivity {
     private int anchoColumna;
     private List<Integer> imagenes = new ArrayList<Integer>();
     private Alumno alumno;
+    private boolean modoEdicion;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -63,6 +64,7 @@ public class AlumnoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alumno);
         alumno = (Alumno)getIntent().getExtras().getSerializable("alumno");
+        modoEdicion = (Boolean)getIntent().getExtras().getBoolean("modoEdicion");
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -82,7 +84,11 @@ public class AlumnoActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu_activity_alumno; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_activity_alumno, menu);
+        if (modoEdicion) {
+            getMenuInflater().inflate(R.menu.menu_activity_alumno_edicion, menu);
+        }else{
+            getMenuInflater().inflate(R.menu.menu_activity_alumno, menu);
+        }
         return true;
     }
 
@@ -91,15 +97,26 @@ public class AlumnoActivity extends AppCompatActivity {
         // Handle app bar item clicks here. The app bar
         // automatically handles clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
         switch(item.getItemId()) {
             case R.id.ajustes:
                 Intent intent = new Intent(AlumnoActivity.this, AjustesActivity.class);
                 intent.putExtra("alumno", alumno);
                 startActivity(intent);
                 finish();
+                return true;
             case R.id.modo_edicion:
-                // modo edición
+                Intent intentEdicion = new Intent(AlumnoActivity.this, AlumnoActivity.class);
+                intentEdicion.putExtra("alumno", alumno);
+                intentEdicion.putExtra("modoEdicion", true);
+                startActivity(intentEdicion);
+                finish();
+                return true;
+            case R.id.modo_alumno:
+                Intent intentAlumno = new Intent(AlumnoActivity.this, AlumnoActivity.class);
+                intentAlumno.putExtra("alumno", alumno);
+                intentAlumno.putExtra("modoEdicion", false);
+                startActivity(intentAlumno);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -120,25 +137,58 @@ public class AlumnoActivity extends AppCompatActivity {
         private List<Integer> imagenes = new ArrayList<Integer>();
         private int anchoColumna;
         private GridViewImageAdapter adapter;
-        static String nombre;
-        static String apellido;
+        String nombre;
+        String apellido;
+        String nombreSolapa;
+        Alumno alumno;
+        boolean modoEdicion;
 
         public PlaceholderFragment() {
+        }
 
+        public PlaceholderFragment(int pageTitle, Alumno alum, Boolean modo) {
+            modoEdicion = modo;
+            alumno = alum;
+            nombreSolapa = getPageTitle(pageTitle).toString();
+            nombre = alum.getNombre();
+            apellido = alum.getApellido();
         }
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber, Alumno alumno) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            nombre = alumno.getNombre();
-            apellido = alumno.getApellido();
+        public static PlaceholderFragment newInstance(int pageTitle, Alumno alum, Boolean modo) {
+            PlaceholderFragment fragment = new PlaceholderFragment(pageTitle, alum, modo);
             return fragment;
+        }
+
+        private CharSequence getPageTitle(int position) {
+            if (modoEdicion) {
+                switch (position) {
+                    case 0:
+                        return "Pista";
+                    case 1:
+                        return "Establo";
+                    case 2:
+                        return "Necesidades";
+                    case 3:
+                        return "Emociones";
+                    case 4:
+                        return alumno.toString();
+                }
+            }else {
+                String[] solapas = alumno.getPestañas().split(","); //los nombres de las solapas están separadas por comas
+
+                if (position < solapas.length) {
+                    return solapas[position];
+                } else if (position == solapas.length) {
+                    return alumno.toString();
+                } else {
+                    return null;
+                }
+            }
+            return null;
         }
 
         @Override
@@ -149,7 +199,12 @@ public class AlumnoActivity extends AppCompatActivity {
             gridView = (GridView) rootView.findViewById(R.id.grid_view);
             this.inicializarGrilla(Constantes.CANTIDAD_COLUMNAS, Constantes.PADDING_GRILLA);
 
-            adapter = new GridViewImageAdapter(getActivity(), Datos.images.get(getArguments().getInt(ARG_SECTION_NUMBER)).ids, anchoColumna,Datos.images.get(getArguments().getInt(ARG_SECTION_NUMBER)).nombres, nombre, apellido);
+
+
+            List<Integer> listaIdImagenes = new Datos(alumno.toString()).getImages().get(nombreSolapa.toLowerCase()).ids;
+            List<String> listaNombreImagenes =  new Datos(alumno.toString()).getImages().get(nombreSolapa.toLowerCase()).nombres;
+
+            adapter = new GridViewImageAdapter(getActivity(), listaIdImagenes, anchoColumna, listaNombreImagenes, nombre, apellido);
 
             gridView.setAdapter(adapter);
             return rootView;
@@ -192,43 +247,49 @@ public class AlumnoActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-
-            return PlaceholderFragment.newInstance(position + 1, alumno);
+            return PlaceholderFragment.newInstance(position, alumno, modoEdicion);
         }
+
 
         @Override
         public int getCount() {
-            // Show 5 total pages.
-            return 5;
+            if(modoEdicion) {
+                return 5;
+            }else{
+                String [] solapas = alumno.getPestañas().split(",");
+                return solapas.length + 1;
+            }
+
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
+            if (modoEdicion) {
+                switch (position) {
+                    case 0:
+                        return "Pista";
+                    case 1:
+                        return "Establo";
+                    case 2:
+                        return "Necesidades";
+                    case 3:
+                        return "Emociones";
+                    case 4:
+                        return alumno.toString();
+                }
+            }else {
+                String[] solapas = alumno.getPestañas().split(","); //los nombres de las solapas están separadas por comas
 
-        /*   switch (position) {
-                case 0:
-                    return "Pista";
-                case 1:
-                    return "Establo";
-                case 2:
-                    return "Necesidades";
-                case 3:
-                    return "Emociones";
-                case 4:
+                if (position < solapas.length) {
+                   // System.out.println("solapas position" + solapas[position]);
+                    return solapas[position];
+                } else if (position == solapas.length) {
                     return alumno.toString();
-            }*/
-
-            String[] solapas = alumno.getPestañas().split(","); //los nombres de las solapas están separadas por comas
-
-            if (position < solapas.length) {
-                return solapas[position];
-            }else if(position==solapas.length){
-                return alumno.toString();
-            }else{
-                return null;
+                } else {
+                    return null;
+                }
             }
+            return null;
         }
     }
 }

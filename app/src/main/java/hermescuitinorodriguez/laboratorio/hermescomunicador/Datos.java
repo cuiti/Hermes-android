@@ -7,8 +7,15 @@ import java.util.Hashtable;
  * Created by mbrown on 09/12/15.
  */
 public class Datos {
-    public static Hashtable<Integer, Info> images = new Hashtable<Integer, Info>();
-    static {
+    private  String nombreAlumno;
+
+    public Datos(String nombre){
+        nombreAlumno = nombre;
+    }
+
+
+    public Hashtable<String, Info> getImages(){
+        Hashtable<String, Info> images = new Hashtable<String, Info>();
         ArrayList<Integer> pista = new ArrayList<>();
         ArrayList<String> pistaAudio = new ArrayList<>();
         pista.add(R.drawable.casco);
@@ -38,7 +45,7 @@ public class Datos {
         pista.add(R.drawable.tarima);
         pistaAudio.add("tarima");
         Info uno = new Info(pista, pistaAudio);
-        images.put(1, uno);
+        images.put("pista", uno);
 
         ArrayList<Integer> establo = new ArrayList<>();
         ArrayList<String> establoAudios = new ArrayList<>();
@@ -61,31 +68,31 @@ public class Datos {
         establo.add(R.drawable.zanahoria);
         establoAudios.add("zanahoria");
         establo.add(R.drawable.caballo1);
-        establoAudios.add("caballo");
+        establoAudios.add("caballo1");
         establo.add(R.drawable.caballo2);
-        establoAudios.add("caballo");
+        establoAudios.add("caballo2");
         establo.add(R.drawable.caballo3);
-        establoAudios.add("caballo");
+        establoAudios.add("caballo3");
         Info dos = new Info(establo, establoAudios);
-        images.put(2, dos);
+        images.put("establo", dos);
 
         ArrayList<Integer> necesidades = new ArrayList<>();
         ArrayList<String> necesidadesAudios = new ArrayList<>();
         necesidades.add(R.drawable.bano);
         necesidadesAudios.add("bano");
         necesidades.add(R.drawable.sedf);
-        necesidadesAudios.add("sed");
+        necesidadesAudios.add("sedf");
         necesidades.add(R.drawable.sedm);
-        necesidadesAudios.add("sed");
+        necesidadesAudios.add("sedm");
         Info tres = new Info(necesidades, necesidadesAudios);
-        images.put(3, tres);
+        images.put("necesidades", tres);
 
         ArrayList<Integer> emociones = new ArrayList<>();
         ArrayList<String> emocionesAudios = new ArrayList<>();
         emociones.add(R.drawable.dolorido);
-        emocionesAudios.add("meduele");
+        emocionesAudios.add("meduelem");
         emociones.add(R.drawable.dolorida);
-        emocionesAudios.add("meduele");
+        emocionesAudios.add("meduelef");
         emociones.add(R.drawable.cansado);
         emocionesAudios.add("cansado");
         emociones.add(R.drawable.cansada);
@@ -107,9 +114,10 @@ public class Datos {
         emociones.add(R.drawable.enojada);
         emocionesAudios.add("enojada");
         Info cuatro = new Info(emociones, emocionesAudios);
-        images.put(4, cuatro);
+        images.put("emociones", cuatro);
 
         Info cinco = new Info(new ArrayList<Integer>(), new ArrayList<String>());
-        images.put(5, cinco);
+        images.put(nombreAlumno , cinco);
+        return images;
     }
 }
