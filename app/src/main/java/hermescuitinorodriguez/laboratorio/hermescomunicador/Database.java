@@ -33,7 +33,7 @@ public class Database extends SQLiteOpenHelper{
         db.execSQL(ALUMNO);
         db.execSQL(PICTOGRAMA);
         db.execSQL(CONFIGURACION);
-        //this.cargarPictogramas();
+        this.cargarPictogramas(db);
     }
 
     @Override
@@ -158,59 +158,221 @@ public class Database extends SQLiteOpenHelper{
         return alumno;
     }
 
-    private void cargarPictogramas(){
-        SQLiteDatabase db = getWritableDatabase();
+    private void cargarPictogramas( SQLiteDatabase db){
+
         try{
             ContentValues values = new ContentValues();
-            values.put("ID", "caballo1");
-            values.put("nombre", "caballo");
-            values.put("carpeta", "pista");
-            db.insert("pictograma", null, values);
-            values.put("ID", "caballo1");
-            values.put("nombre", "caballo");
-            values.put("carpeta", "pista");
-            db.insert("pictograma", null, values);
-            values.put("ID", "caballo1");
-            values.put("nombre", "caballo");
-            values.put("carpeta", "pista");
-            db.insert("pictograma", null, values);
-            values.put("ID", "caballo1");
-            values.put("nombre", "caballo");
-            values.put("carpeta", "pista");
-            db.insert("pictograma", null, values);
-            values.put("ID", "caballo1");
-            values.put("nombre", "caballo");
-            values.put("carpeta", "pista");
-            db.insert("pictograma", null, values);
-            values.put("ID", "caballo1");
-            values.put("nombre", "caballo");
-            values.put("carpeta", "pista");
-            db.insert("pictograma", null, values);values.put("ID", "caballo1");
-            values.put("nombre", "caballo");
-            values.put("carpeta", "pista");
-            db.insert("pictograma", null, values);
-            values.put("ID", "caballo1");
-            values.put("nombre", "caballo");
-            values.put("carpeta", "pista");
-            db.insert("pictograma", null, values);
-            values.put("ID", "caballo1");
-            values.put("nombre", "caballo");
-            values.put("carpeta", "pista");
-            db.insert("pictograma", null, values);
-            values.put("ID", "caballo1");
-            values.put("nombre", "caballo");
-            values.put("carpeta", "pista");
-            db.insert("pictograma", null, values);
-            values.put("ID", "caballo1");
-            values.put("nombre", "caballo");
-            values.put("carpeta", "pista");
-            db.insert("pictograma", null, values);
-            values.put("ID", "caballo1");
-            values.put("nombre", "caballo");
+            values.put("ID", "aro");
+            values.put("nombre", "aro");
             values.put("carpeta", "pista");
             db.insert("pictograma", null, values);
 
-            db.close();
+            values.put("ID", "asustada");
+            values.put("nombre", "asustada");
+            values.put("carpeta", "emociones");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "asustado");
+            values.put("nombre", "asustado");
+            values.put("carpeta", "emociones");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "bano");
+            values.put("nombre", "bano");
+            values.put("carpeta", "necesidades");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "sedf");
+            values.put("nombre", "sed");
+            values.put("carpeta", "necesidades");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "sedm");
+            values.put("nombre", "sed");
+            values.put("carpeta", "necesidades");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "broches");
+            values.put("nombre", "broches");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "burbujas");
+            values.put("nombre", "burbujas");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "caballo1");
+            values.put("nombre", "caballo");
+            values.put("carpeta", "establo");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "caballo2");
+            values.put("nombre", "caballo");
+            values.put("carpeta", "establo");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "caballo3");
+            values.put("nombre", "caballo");
+            values.put("carpeta", "establo");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "cansada");
+            values.put("nombre", "cansada");
+            values.put("carpeta", "emociones");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "cansado");
+            values.put("nombre", "cansado");
+            values.put("carpeta", "emociones");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "casco");
+            values.put("nombre", "casco");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "cepillo");
+            values.put("nombre", "cepillo");
+            values.put("carpeta", "establo");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "chapas");
+            values.put("nombre", "chapas");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "contento");
+            values.put("nombre", "contento");
+            values.put("carpeta", "emociones");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "contenta");
+            values.put("nombre", "contenta");
+            values.put("carpeta", "emociones");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "cubos");
+            values.put("nombre", "cubos");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "dolorida");
+            values.put("nombre", "dolorida");
+            values.put("carpeta", "emociones");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "dolorido");
+            values.put("nombre", "dolorido");
+            values.put("carpeta", "emociones");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "enojada");
+            values.put("nombre", "enojada");
+            values.put("carpeta", "emociones");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "enojado");
+            values.put("nombre", "enojado");
+            values.put("carpeta", "emociones");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "escarbavasos");
+            values.put("nombre", "escarba vasos");
+            values.put("carpeta", "establo");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "letras");
+            values.put("nombre", "letras");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "limpieza");
+            values.put("nombre", "limpieza");
+            values.put("carpeta", "establo");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "maracas");
+            values.put("nombre", "maracas");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "matra");
+            values.put("nombre", "matra");
+            values.put("carpeta", "establo");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "montura");
+            values.put("nombre", "montura");
+            values.put("carpeta", "establo");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "palos");
+            values.put("nombre", "palos");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "pasto");
+            values.put("nombre", "pasto");
+            values.put("carpeta", "establo");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "pato");
+            values.put("nombre", "pato");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "pelota");
+            values.put("nombre", "pelota");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "rasquetablanda");
+            values.put("nombre", "rasqueta blanda");
+            values.put("carpeta", "establo");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "rasquetadura");
+            values.put("nombre", "rasqueta dura");
+            values.put("carpeta", "establo");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "riendas");
+            values.put("nombre", "riendas");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "sorprendida");
+            values.put("nombre", "sorprendida");
+            values.put("carpeta", "emociones");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "sorprendido");
+            values.put("nombre", "sorprendido");
+            values.put("carpeta", "emociones");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "tarima");
+            values.put("nombre", "tarima");
+            values.put("carpeta", "pista");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "tristef");
+            values.put("nombre", "triste");
+            values.put("carpeta", "emociones");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "tristem");
+            values.put("nombre", "triste");
+            values.put("carpeta", "emociones");
+            db.insert("pictograma", null, values);
+
+            values.put("ID", "zanahoria");
+            values.put("nombre", "zanahoria");
+            values.put("carpeta", "establo");
+            db.insert("pictograma", null, values);
+
+            //db.close();
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -220,5 +382,18 @@ public class Database extends SQLiteOpenHelper{
         SQLiteDatabase db = getWritableDatabase();
         db.delete("alumno", "id="+id, null);
         db.close();
+    }
+
+    public String getCategoria(String pictograma){
+        String categoria = "";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(" SELECT carpeta FROM pictograma WHERE id='" + pictograma + "' ", null);
+        if(c != null) {
+            c.moveToFirst();
+            categoria = c.getString(0);
+        }
+        db.close();
+        c.close();
+        return categoria;
     }
 }

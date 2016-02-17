@@ -27,6 +27,11 @@ public class AjustesActivity extends AppCompatActivity {
     Settings configuracion;
     Alumno alumno;
     String pestañas;
+    CheckBox pista;
+    CheckBox establo;
+    CheckBox necesidades;
+    CheckBox emociones;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +56,38 @@ public class AjustesActivity extends AppCompatActivity {
         direccionIP = (TextView) findViewById(R.id.direccionIP);
         puerto = (TextView) findViewById(R.id.puerto);
 
+        pista = (CheckBox) findViewById(R.id.checkbox_pista);
+        establo = (CheckBox) findViewById(R.id.checkbox_establo);
+        necesidades = (CheckBox) findViewById(R.id.checkbox_necesidades);
+        emociones = (CheckBox) findViewById(R.id.checkbox_emociones);
+
         alumno = (Alumno)getIntent().getExtras().getSerializable("alumno");
         if (alumno != null) {
             nombreAlumno.setText(alumno.getNombre());
             apellidoAlumno.setText(alumno.getApellido());
             sexoAlumno.setText(alumno.getSexo());
             pestañas = alumno.getPestañas();
+            String[] solapas = alumno.getPestañas().split(","); //los nombres de las solapas están separadas por comas
+            for(String solapa: solapas) {
+                switch (solapa) {
+                    case "pista":
+                        pista.setChecked(true);
+                        break;
+                    case "establo":
+                        establo.setChecked(true);
+                        break;
+                    case "necesidades":
+                        necesidades.setChecked(true);
+                        break;
+                    case "emociones":
+                        emociones.setChecked(true);
+                        break;
+                }
+            }
         }else{
             Button botonEliminar = (Button) findViewById(R.id.eliminarAlumno);
             botonEliminar.setEnabled(false);
         }
-
 
         if (configuracion != null) {
             direccionIP.setText(configuracion.getDireccionIP());
@@ -70,6 +96,7 @@ public class AjustesActivity extends AppCompatActivity {
     }
 
     public void guardar(View view){
+        setearSolapas();
         if (alumno != null){
             modificarAlumno();
         }else{
@@ -111,14 +138,12 @@ public class AjustesActivity extends AppCompatActivity {
         String sexo = sexoAlumno.getText().toString();
         String tamañoPictograma = "";
 
-        if ((nombre != null && nombre != "") || (apellido != null && apellido != "") || (sexo != null && sexo != "")) {
+        if ((nombre != null && nombre != "") && (apellido != null && apellido != "") && (sexo != null && sexo != "")) {
             Database database = new Database(getApplicationContext());
             database.getWritableDatabase();
             database.nuevoAlumno(nombre, apellido, sexo, tamañoPictograma, pestañas);
             Toast.makeText(AjustesActivity.this, R.string.alumno_guardar_confirmacion, Toast.LENGTH_SHORT).show();
-
         }
-
     }
 
     public void borrar(View view)
@@ -185,32 +210,22 @@ public class AjustesActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onCheckboxClicked(View view) {
-
-        boolean checked = ((CheckBox) view).isChecked();
-
+    public void setearSolapas() {
         String solapas = "";
 
-        switch(view.getId()) {
-            case R.id.checkbox_pista:
-                if (checked)
-                    solapas += "pista,";
-                break;
-            case R.id.checkbox_establo:
-                if (checked)
-                    solapas += "establo,";
-                break;
-            case R.id.checkbox_necesidades:
-                if (checked)
-                    solapas += "necesidades,";
-                break;
-            case R.id.checkbox_emociones:
-                if (checked)
-                    solapas += "emociones,";
-                break;
+        if (pista.isChecked()) {
+            solapas += "pista,";
+        }
+        if (establo.isChecked()) {
+            solapas += "establo,";
+        }
+        if (necesidades.isChecked()) {
+            solapas += "necesidades,";
+        }
+        if (emociones.isChecked()) {
+            solapas += "emociones,";
         }
 
         pestañas = solapas;
-
     }
 }

@@ -29,6 +29,7 @@ public class GridViewImageAdapter extends BaseAdapter {
 	private List<Integer> listaIdImagenes = new ArrayList<Integer>();
 	private int imageWidth;
 	private List<String> audios = new ArrayList<String>();
+	public String tag;
 
 	public GridViewImageAdapter(Activity activity, List<Integer> listaIdImagenes,
 			int imageWidth, List<String> listaNombreImagenes, String nombre, String apellido) {
@@ -77,8 +78,9 @@ public class GridViewImageAdapter extends BaseAdapter {
 				mediaPlayer.start();
 
                 String nombreContenido = _activity.getResources().getResourceEntryName(soundId);
-                //ToDo: conseguir la categoria
-                NotificacionDTO notiDTO = new NotificacionDTO(apellido, nombre, "categoriaHardcoded", "Cedica", nombreContenido); //el contexto no se usa, asi que queda hardocdeado como Cedica
+                Database db = new Database(_activity);
+				String categoria = db.getCategoria(nombreContenido);
+                NotificacionDTO notiDTO = new NotificacionDTO(apellido, nombre, categoria, "Cedica", nombreContenido); //el contexto no se usa, asi que queda hardocdeado como Cedica
                 List<NotificacionDTO> lista = new ArrayList<NotificacionDTO>();
                 lista.add(notiDTO);
 

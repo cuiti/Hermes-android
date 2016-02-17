@@ -100,7 +100,7 @@ public class Datos {
         emocionesAudios.add("asustada");
         emociones.add(R.drawable.contento);
         emocionesAudios.add("contento");
-        emociones.add(R.drawable.contents);
+        emociones.add(R.drawable.contenta);
         emocionesAudios.add("contenta");
         emociones.add(R.drawable.enojado);
         emocionesAudios.add("enojado");
