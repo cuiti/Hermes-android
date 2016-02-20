@@ -3,12 +3,20 @@
     <string name="ajustes">Ajustes</string>
     <string name="modo_edicion">Modo Edición</string>
     <string name="nuevo_alumno">Nuev@ Alumn@</string>
+
+    <string name="alumno_crear_confirmacion">Alumno guardado</string>
+    <string name="alumno_guardar_titulo">Guardar alumno</string>
+    <string name="alumno_guardar_mensaje">Los campos nombre y apellido del alumno son requeridos. Verifique de completarlos correctamente</string>
+    <string name="salir">Salir sin guardar</string>
+    <string name="seguir">Seguir editando</string>
+
     <string name="alumno_eliminar_titulo">Eliminar Alumno</string>
     <string name="alumno_eliminar_mensaje">¿Seguro que desea eliminar al alumno?</string>
     <string name="alumno_eliminar_confirmacion">Alumno eliminado</string>
     <string name="alumno_guardar_confirmacion">Alumno guardado</string>
     <string name="alerta_enviar_notificacion">Atención, no hay conexión. Las notificaciones no se enviarán</string>
     <string name="alerta_conectar_monitor">Atención, no se configuró IP o puerto del monitor. Las notificaciones no se enviarán</string>
+
     <string-array name="sexo_array">
         <item>Masculino</item>
         <item>Femenino</item>
