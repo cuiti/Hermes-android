@@ -201,13 +201,13 @@ public class AlumnoActivity extends AppCompatActivity {
             int cant_columnas=1;
             switch (alumno.getTamañoPictogramas()) {
                 case "Chico":
-                    cant_columnas=4;
+                    cant_columnas=5;
                     break;
                 case "Mediano":
-                    cant_columnas=3;
+                    cant_columnas=4;
                     break;
                 case "Grande":
-                    cant_columnas=2;
+                    cant_columnas=3;
                     break;
             }
 
