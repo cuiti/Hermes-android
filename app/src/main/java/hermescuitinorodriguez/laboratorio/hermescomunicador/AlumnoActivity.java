@@ -204,7 +204,7 @@ public class AlumnoActivity extends AppCompatActivity {
             List<Integer> listaIdImagenes = new Datos(alumno.toString()).getImages().get(nombreSolapa.toLowerCase()).ids;
             List<String> listaNombreImagenes =  new Datos(alumno.toString()).getImages().get(nombreSolapa.toLowerCase()).nombres;
 
-            adapter = new GridViewImageAdapter(getActivity(), listaIdImagenes, anchoColumna, listaNombreImagenes, nombre, apellido);
+            adapter = new GridViewImageAdapter(getActivity(), listaIdImagenes, alumno, anchoColumna, listaNombreImagenes, modoEdicion);
 
             gridView.setAdapter(adapter);
             return rootView;
