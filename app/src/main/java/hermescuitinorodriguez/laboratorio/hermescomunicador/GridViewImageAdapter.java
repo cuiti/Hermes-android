@@ -82,13 +82,14 @@ public class GridViewImageAdapter extends BaseAdapter {
 					mediaPlayer.start();
 
 					String nombreContenido = _activity.getResources().getResourceEntryName(soundId);
-					Database db = new Database(_activity);
-					String categoria = db.getCategoria(nombreContenido);
-					NotificacionDTO notiDTO = new NotificacionDTO(apellido, nombre, categoria, "Cedica", nombreContenido); //el contexto no se usa, asi que queda hardocdeado como Cedica
-					List<NotificacionDTO> lista = new ArrayList<NotificacionDTO>();
-					lista.add(notiDTO);
-
-					new SendNotificationTask().execute(lista, _activity.getApplicationContext());
+					if (!nombreContenido.equals("si") && !nombreContenido.equals("no")) {
+						Database db = new Database(_activity);
+						String categoria = db.getCategoria(nombreContenido);
+						NotificacionDTO notiDTO = new NotificacionDTO(alumno.getApellido(), alumno.getNombre(), categoria, "Cedica", nombreContenido);
+						List<NotificacionDTO> lista = new ArrayList<NotificacionDTO>();
+						lista.add(notiDTO);
+						new SendNotificationTask().execute(lista, _activity.getApplicationContext());
+					}
 				} else {
 					Database db = new Database(_activity);
 					int soundId = _activity.getResources().getIdentifier(audios.get(position), "raw", _activity.getPackageName());

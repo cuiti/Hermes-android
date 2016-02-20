@@ -19,6 +19,7 @@
         </activity>
         <activity
             android:name=".AlumnoActivity"
+            android:screenOrientation="landscape"
             android:parentActivityName=".ComunicadorGrillaActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
