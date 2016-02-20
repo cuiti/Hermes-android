@@ -178,11 +178,11 @@ public class AlumnoActivity extends AppCompatActivity {
                         return alumno.toString();
                 }
             }else {
-                String[] solapas = alumno.getPestañas().split(","); //los nombres de las solapas están separadas por comas
+                String[] solapas = alumno.getPestañas()!=null ? alumno.getPestañas().split(",") : null; //los nombres de las solapas están separadas por comas
 
-                if (position < solapas.length) {
+                if (solapas != null && position < solapas.length) {
                     return solapas[position];
-                } else if (position == solapas.length) {
+                } else if (solapas == null || position == solapas.length) {
                     return alumno.toString();
                 } else {
                     return null;
@@ -213,10 +213,9 @@ public class AlumnoActivity extends AppCompatActivity {
 
             this.inicializarGrilla(cant_columnas, Constantes.PADDING_GRILLA);
 
-
-
-            List<Integer> listaIdImagenes = new Datos(alumno.toString()).getImages().get(nombreSolapa.toLowerCase()).ids;
-            List<String> listaNombreImagenes =  new Datos(alumno.toString()).getImages().get(nombreSolapa.toLowerCase()).nombres;
+            Database db = new Database(this.getContext());
+            List<Integer> listaIdImagenes = new Datos(alumno, getActivity()).getImages(db).get(nombreSolapa.toLowerCase()).ids;
+            List<String> listaNombreImagenes =  new Datos(alumno, getActivity()).getImages(db).get(nombreSolapa.toLowerCase()).nombres;
 
             adapter = new GridViewImageAdapter(getActivity(), listaIdImagenes, alumno, anchoColumna, listaNombreImagenes, modoEdicion);
 
@@ -270,8 +269,8 @@ public class AlumnoActivity extends AppCompatActivity {
             if(modoEdicion) {
                 return 5;
             }else{
-                String [] solapas = alumno.getPestañas().split(",");
-                return solapas.length + 1;
+                String [] solapas = alumno.getPestañas() != null ? alumno.getPestañas().split(","): null;
+                return solapas != null ? solapas.length + 1 : 1;
             }
 
         }
@@ -292,12 +291,12 @@ public class AlumnoActivity extends AppCompatActivity {
                         return alumno.toString();
                 }
             }else {
-                String[] solapas = alumno.getPestañas().split(","); //los nombres de las solapas están separadas por comas
+                String [] solapas = alumno.getPestañas() != null ? alumno.getPestañas().split(","): null; //los nombres de las solapas están separadas por comas
 
-                if (position < solapas.length) {
+                if (solapas != null && position < solapas.length) {
                    // System.out.println("solapas position" + solapas[position]);
                     return solapas[position];
-                } else if (position == solapas.length) {
+                } else if (solapas == null || position == solapas.length) {
                     return alumno.toString();
                 } else {
                     return null;

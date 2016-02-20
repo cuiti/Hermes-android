@@ -94,7 +94,7 @@ public class AjustesActivity extends AppCompatActivity {
             nombreAlumno.setText(alumno.getNombre());
             apellidoAlumno.setText(alumno.getApellido());
             pestañas = alumno.getPestañas();
-            String[] solapas = alumno.getPestañas().split(","); //los nombres de las solapas están separadas por comas
+            String[] solapas = alumno.getPestañas() != null ? alumno.getPestañas().split(",") : new String[]{""}; //los nombres de las solapas están separadas por comas
             for(String solapa: solapas) {
                 switch (solapa) {
                     case "pista":
@@ -119,8 +119,6 @@ public class AjustesActivity extends AppCompatActivity {
     }
 
     public void guardarAlumno(){
-
-
         setearSolapas();
         Boolean guardado;
         if (alumno != null){
@@ -288,7 +286,9 @@ public class AjustesActivity extends AppCompatActivity {
 
         if (solapas.length() > 1) {
             solapas = solapas.substring(0, solapas.length() - 1);
+            pestañas = solapas;
+        }else{
+            pestañas = null;
         }
-        pestañas = solapas;
     }
 }

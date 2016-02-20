@@ -1,5 +1,7 @@
 package hermescuitinorodriguez.laboratorio.hermescomunicador;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -7,14 +9,15 @@ import java.util.Hashtable;
  * Created by mbrown on 09/12/15.
  */
 public class Datos {
-    private  String nombreAlumno;
+    private Alumno alumno;
+    private Activity activity;
 
-    public Datos(String nombre){
-        nombreAlumno = nombre;
+    public Datos(Alumno alumno, Activity activity) {
+        this.alumno = alumno;
+        this.activity = activity;
     }
 
-
-    public Hashtable<String, Info> getImages(){
+    public Hashtable<String, Info> getImages(Database db) {
         Hashtable<String, Info> images = new Hashtable<String, Info>();
         ArrayList<Integer> pista = new ArrayList<>();
         ArrayList<String> pistaAudio = new ArrayList<>();
@@ -116,8 +119,19 @@ public class Datos {
         Info cuatro = new Info(emociones, emocionesAudios);
         images.put("emociones", cuatro);
 
-        Info cinco = new Info(new ArrayList<Integer>(), new ArrayList<String>());
-        images.put(nombreAlumno , cinco);
+        ArrayList<Integer> alum = new ArrayList<>();
+        ArrayList<String>alumnoAudios = new ArrayList<>();
+        alum.add(R.drawable.si);
+        alumnoAudios.add("si");
+        alum.add(R.drawable.no);
+        alumnoAudios.add("no");
+        ArrayList<String> pictogramas = db.listaPicogramaAlumno(alumno.getId());
+        for (String pictograma:pictogramas) {
+            alum.add(activity.getResources().getIdentifier(pictograma, "drawable", activity.getPackageName()));
+            alumnoAudios.add(pictograma);
+        }
+        Info cinco = new Info(alum, alumnoAudios);
+        images.put(alumno.toString(), cinco);
         return images;
     }
 }

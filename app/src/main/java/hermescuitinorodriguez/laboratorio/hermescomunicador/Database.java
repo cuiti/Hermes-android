@@ -107,6 +107,22 @@ public class Database extends SQLiteOpenHelper{
         return listaAlumnos;
     }
 
+
+    public ArrayList<String> listaPicogramaAlumno(int alumno) {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<String> listaPictogramas = new ArrayList<String>();
+        Cursor c = db.rawQuery(" SELECT pictograma_id FROM pictograma_alumno WHERE alumno_id="+alumno, null);
+        if (c.moveToFirst()) {
+            do {
+                listaPictogramas.add(c.getString(0));
+            } while (c.moveToNext());
+            db.close();
+            c.close();
+            return listaPictogramas;
+        }
+        return listaPictogramas;
+    }
+
     public Settings getConfiguracion(){
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.rawQuery(" SELECT ip, puerto FROM configuracion", null);
