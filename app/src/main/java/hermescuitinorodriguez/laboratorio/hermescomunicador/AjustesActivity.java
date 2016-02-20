@@ -95,7 +95,7 @@ public class AjustesActivity extends AppCompatActivity {
         }
     }
 
-    public void guardar(View view){
+    public void guardar(){
         setearSolapas();
         if (alumno != null){
             modificarAlumno();
@@ -191,7 +191,7 @@ public class AjustesActivity extends AppCompatActivity {
         return true;
     }
 
-   @Override
+/*   @Override
     public void onBackPressed(){
        if (alumno != null){
            Intent intent = new Intent(this, AlumnoActivity.class);
@@ -212,7 +212,26 @@ public class AjustesActivity extends AppCompatActivity {
             this.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }*/
+
+    @Override
+    public void onBackPressed(){
+        guardar();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.ajustes) {
+            return true;
+        }
+        if (id == android.R.id.home){
+            onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public void setearSolapas() {
         String solapas = "";
