@@ -8,7 +8,7 @@
     <string name="alumno_eliminar_confirmacion">Alumno eliminado</string>
     <string name="alumno_guardar_confirmacion">Alumno guardado</string>
     <string name="alerta_enviar_notificacion">Atención, no hay conexión. Las notificaciones no se enviarán</string>
-
+    <string name="alerta_conectar_monitor">Atención, no se configuró IP o puerto del monitor. Las notificaciones no se enviarán</string>
     <string-array name="sexo_array">
         <item>Masculino</item>
         <item>Femenino</item>

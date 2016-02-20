@@ -39,60 +39,69 @@ public class SendNotificationTask extends AsyncTask{
 
         Database db = new Database(contexto);
         Settings settings = db.getConfiguracion();
-        String url = "http://" + settings.getDireccionIP() + ":" + settings.getPuerto() + "/hermes";
+        if ((settings!=null)) {
+            String url = "http://" + settings.getDireccionIP() + ":" + settings.getPuerto() + "/hermes";
 
+            //-----Para chequear si hay conexion a internet
+            ConnectivityManager cm = (ConnectivityManager) contexto.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo infoNet = cm.getActiveNetworkInfo();
 
-        //-----Para chequear si hay conexion a internet
-        ConnectivityManager cm = (ConnectivityManager) contexto.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo infoNet = cm.getActiveNetworkInfo();
+            if (infoNet != null && infoNet.isConnectedOrConnecting()) {
 
-        if (infoNet != null && infoNet.isConnectedOrConnecting()) {
-
-            OutputStream os = null;
-            HttpURLConnection conn = null;
-            try {
-                URL urlObject = new URL(url);
-                conn = (HttpURLConnection) urlObject.openConnection();
-                conn.setReadTimeout(100000);
-                conn.setDoOutput(true);
-                os = conn.getOutputStream();
-            } catch (Exception e1) {
-                System.out.println("Error de IO al conectarse a la URL");
-                e1.printStackTrace();
-            }
-
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
-
-
-            try {
-                writer.write(listaNotiJson);
-                writer.close();
-                os.close();
-                int code = conn.getResponseCode();
-                System.out.println("code:" + code);
-                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String inputLine;
-                while ((inputLine = in.readLine()) != null) {
-                    System.out.println(inputLine);
+                OutputStream os = null;
+                HttpURLConnection conn = null;
+                try {
+                    URL urlObject = new URL(url);
+                    conn = (HttpURLConnection) urlObject.openConnection();
+                    conn.setReadTimeout(100000);
+                    conn.setDoOutput(true);
+                    os = conn.getOutputStream();
+                } catch (Exception e1) {
+                    System.out.println("Error de IO al conectarse a la URL");
+                    e1.printStackTrace();
                 }
-                in.close();
-                System.out.println(conn.getResponseMessage());
 
-            } catch (IOException e) {
-                System.out.println("Error de al enviar datos ");
-                e.printStackTrace();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
+
+
+                try {
+                    writer.write(listaNotiJson);
+                    writer.close();
+                    os.close();
+                    int code = conn.getResponseCode();
+                    System.out.println("code:" + code);
+                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String inputLine;
+                    while ((inputLine = in.readLine()) != null) {
+                        System.out.println(inputLine);
+                    }
+                    in.close();
+                    System.out.println(conn.getResponseMessage());
+
+                } catch (IOException e) {
+                    System.out.println("Error de al enviar datos ");
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("else del enviar notificacion, no hay red");
+                //no hay red, acá avisa con un toast
+                Handler handler = new Handler(contexto.getMainLooper());
+                handler.post(new Runnable() {
+                    public void run() {
+                        Toast.makeText(contexto, R.string.alerta_enviar_notificacion, Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         }else{
-            System.out.println("else del enviar notificacion, no hay red");
+            System.out.println("else del getDireccionIP, no hay valores seteados");
             //no hay red, acá avisa con un toast
-            Handler handler =  new Handler(contexto.getMainLooper());
+            Handler handler = new Handler(contexto.getMainLooper());
             handler.post(new Runnable() {
                 public void run() {
-                    Toast.makeText(contexto, R.string.alerta_enviar_notificacion, Toast.LENGTH_LONG).show();
+                    Toast.makeText(contexto, R.string.alerta_conectar_monitor, Toast.LENGTH_LONG).show();
                 }
             });
         }
-
         return null;
 
     }
