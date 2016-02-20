@@ -197,7 +197,21 @@ public class AlumnoActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_activity_main, container, false);
 
             gridView = (GridView) rootView.findViewById(R.id.grid_view);
-            this.inicializarGrilla(Constantes.CANTIDAD_COLUMNAS, Constantes.PADDING_GRILLA);
+
+            int cant_columnas=1;
+            switch (alumno.getTamañoPictogramas()) {
+                case "Chico":
+                    cant_columnas=4;
+                    break;
+                case "Mediano":
+                    cant_columnas=3;
+                    break;
+                case "Grande":
+                    cant_columnas=2;
+                    break;
+            }
+
+            this.inicializarGrilla(cant_columnas, Constantes.PADDING_GRILLA);
 
 
 

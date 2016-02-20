@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Spinner;
 import android.content.DialogInterface;
@@ -31,7 +30,8 @@ public class AjustesActivity extends AppCompatActivity {
     CheckBox establo;
     CheckBox necesidades;
     CheckBox emociones;
-
+    Spinner spinnerTamaño;
+    Spinner spinnerSexo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +39,16 @@ public class AjustesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ajustes);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        Spinner spinner = (Spinner) findViewById(R.id.sexo_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sexo_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-//        spinner.setAdapter(adapter);
+        spinnerSexo = (Spinner) findViewById(R.id.sexoAlumno);
+        ArrayAdapter<CharSequence> adapterSexo = ArrayAdapter.createFromResource(this, R.array.sexo_array, android.R.layout.simple_spinner_item);
+        adapterSexo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerSexo.setAdapter(adapterSexo);
+
+        spinnerTamaño = (Spinner) findViewById(R.id.tamañoPictograma);
+        ArrayAdapter<CharSequence> adapterTamaño = ArrayAdapter.createFromResource(this, R.array.arrayTamañoPictograma, android.R.layout.simple_spinner_item);
+        adapterTamaño.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTamaño.setAdapter(adapterTamaño);
+
 
         db = new Database(this);
         configuracion = db.getConfiguracion();
@@ -59,7 +62,6 @@ public class AjustesActivity extends AppCompatActivity {
 
         nombreAlumno = (TextView) findViewById(R.id.nombreAlumno);
         apellidoAlumno = (TextView) findViewById(R.id.apellidoAlumno);
-        sexoAlumno = (TextView) findViewById(R.id.sexoAlumno);
         alumno = (Alumno)getIntent().getExtras().getSerializable("alumno");
 
         pista = (CheckBox) findViewById(R.id.checkbox_pista);
@@ -68,9 +70,29 @@ public class AjustesActivity extends AppCompatActivity {
         emociones = (CheckBox) findViewById(R.id.checkbox_emociones);
 
         if (alumno != null) {
+            switch (alumno.getTamañoPictogramas()) {
+                case "Chico":
+                    spinnerTamaño.setSelection(0, true);
+                    break;
+                case "Mediano":
+                    spinnerTamaño.setSelection(1, true);
+                    break;
+                case "Grande":
+                    spinnerTamaño.setSelection(2, true);
+                    break;
+            }
+
+            switch (alumno.getSexo()) {
+                case "Masculino":
+                    spinnerSexo.setSelection(0, true);
+                    break;
+                case "Femenino":
+                    spinnerSexo.setSelection(1, true);
+                    break;
+            }
+
             nombreAlumno.setText(alumno.getNombre());
             apellidoAlumno.setText(alumno.getApellido());
-            sexoAlumno.setText(alumno.getSexo());
             pestañas = alumno.getPestañas();
             String[] solapas = alumno.getPestañas().split(","); //los nombres de las solapas están separadas por comas
             for(String solapa: solapas) {
@@ -92,10 +114,13 @@ public class AjustesActivity extends AppCompatActivity {
         }else{
             Button botonEliminar = (Button) findViewById(R.id.eliminarAlumno);
             botonEliminar.setEnabled(false);
+            spinnerTamaño.setSelection(1);
         }
     }
 
     public void guardarAlumno(){
+
+
         setearSolapas();
         Boolean guardado;
         if (alumno != null){
@@ -156,9 +181,11 @@ public class AjustesActivity extends AppCompatActivity {
     private boolean modificarAlumno(){
         String nombre = nombreAlumno.getText().toString();
         String apellido = apellidoAlumno.getText().toString();
-        String tamañoPictograma = "";
+
+        String tamañoPictograma = (String)spinnerTamaño.getSelectedItem();
+        String sexoAlumno = (String)spinnerSexo.getSelectedItem();
         if ((nombre != null && nombre.length() != 0) && (apellido != null && apellido.length() != 0)) {
-            alumno = db.modificarAlumno(alumno.getId(), nombre, apellido, "Femenino", tamañoPictograma, pestañas);
+            alumno = db.modificarAlumno(alumno.getId(), nombre, apellido, sexoAlumno , tamañoPictograma, pestañas);
             Toast.makeText(AjustesActivity.this, R.string.alumno_guardar_confirmacion, Toast.LENGTH_SHORT).show();
             return true;
         }else{
@@ -169,13 +196,13 @@ public class AjustesActivity extends AppCompatActivity {
     public boolean nuevoAlumno() {
         String nombre = nombreAlumno.getText().toString();
         String apellido = apellidoAlumno.getText().toString();
-        String sexo = sexoAlumno.getText().toString();
-        String tamañoPictograma = "";
+        String tamañoPictograma = (String)spinnerTamaño.getSelectedItem();
+        String sexoAlumno = (String)spinnerSexo.getSelectedItem();
 
         if ((nombre != null && nombre.length() != 0) && (apellido != null && apellido.length() != 0)) {
             Database database = new Database(getApplicationContext());
             database.getWritableDatabase();
-            database.nuevoAlumno(nombre, apellido, sexo, tamañoPictograma, pestañas);
+            database.nuevoAlumno(nombre, apellido, sexoAlumno, tamañoPictograma, pestañas);
             Toast.makeText(AjustesActivity.this, R.string.alumno_crear_confirmacion, Toast.LENGTH_SHORT).show();
             return true;
         }else{
