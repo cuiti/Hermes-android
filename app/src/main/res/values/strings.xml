@@ -4,7 +4,7 @@
     <string name="modo_edicion">Modo Edición</string>
     <string name="nuevo_alumno">Nuev@ Alumn@</string>
 
-    <string name="alumno_crear_confirmacion">Alumno guardado</string>
+    <string name="alumno_modificar_confirmacion">Alumno modificado</string>
     <string name="alumno_guardar_titulo">Guardar alumno</string>
     <string name="alumno_guardar_mensaje">Los campos nombre y apellido del alumno son requeridos. Verifique de completarlos correctamente</string>
     <string name="salir">Salir sin guardar</string>

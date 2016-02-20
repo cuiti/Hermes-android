@@ -201,7 +201,7 @@ public class AjustesActivity extends AppCompatActivity {
             Database database = new Database(getApplicationContext());
             database.getWritableDatabase();
             database.nuevoAlumno(nombre, apellido, sexoAlumno, tamañoPictograma, pestañas);
-            Toast.makeText(AjustesActivity.this, R.string.alumno_crear_confirmacion, Toast.LENGTH_SHORT).show();
+            Toast.makeText(AjustesActivity.this, R.string.alumno_modificar_confirmacion, Toast.LENGTH_SHORT).show();
             return true;
         }else{
             return false;
