@@ -108,7 +108,7 @@ public class Database extends SQLiteOpenHelper{
     }
 
 
-    public ArrayList<String> listaPicogramaAlumno(int alumno) {
+    public ArrayList<String> listaPictogramaAlumno(int alumno) {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<String> listaPictogramas = new ArrayList<String>();
         Cursor c = db.rawQuery(" SELECT pictograma_id FROM pictograma_alumno WHERE alumno_id="+alumno, null);
