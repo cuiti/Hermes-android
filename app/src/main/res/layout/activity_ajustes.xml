@@ -79,7 +79,7 @@
                 android:layout_alignParentStart="true"
                 android:spinnerMode="dialog"
                 android:entries="@array/sexo_array"
-                android:layout_alignEnd="@+id/apellidoAlumno" />
+                android:layout_alignEnd="@+id/tamañoPictograma" />
 
             <TextView
                 android:layout_width="wrap_content"
