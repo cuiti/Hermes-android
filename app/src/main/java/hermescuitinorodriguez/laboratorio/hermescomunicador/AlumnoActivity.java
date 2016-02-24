@@ -15,23 +15,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -142,16 +128,19 @@ public class AlumnoActivity extends AppCompatActivity {
         String nombreSolapa;
         Alumno alumno;
         boolean modoEdicion;
+        int numeroFragment;
+
 
         public PlaceholderFragment() {
         }
 
-        public PlaceholderFragment(int pageTitle, Alumno alum, Boolean modo) {
+        public PlaceholderFragment(int numeroFragment, Alumno alum, Boolean modo) {
             modoEdicion = modo;
             alumno = alum;
-            nombreSolapa = getPageTitle(pageTitle).toString();
+            nombreSolapa = getPageTitle(numeroFragment).toString();
             nombre = alum.getNombre();
             apellido = alum.getApellido();
+            this.numeroFragment = numeroFragment;
         }
 
         /**
@@ -216,8 +205,9 @@ public class AlumnoActivity extends AppCompatActivity {
             Database db = new Database(this.getContext());
             List<Integer> listaIdImagenes = new Datos(alumno, getActivity()).getImages(db).get(nombreSolapa.toLowerCase()).ids;
             List<String> listaNombreImagenes =  new Datos(alumno, getActivity()).getImages(db).get(nombreSolapa.toLowerCase()).nombres;
+            ArrayList<String> listaPictogramaAlumno = db.listaPictogramaAlumno(alumno.getId());
 
-            adapter = new GridViewImageAdapter(getActivity(), listaIdImagenes, alumno, anchoColumna, listaNombreImagenes, modoEdicion);
+            adapter = new GridViewImageAdapter(getActivity(), listaIdImagenes, alumno, anchoColumna, listaNombreImagenes, modoEdicion, listaPictogramaAlumno, numeroFragment);
 
             gridView.setAdapter(adapter);
             return rootView;

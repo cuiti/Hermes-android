@@ -1,21 +1,15 @@
 package hermescuitinorodriguez.laboratorio.hermescomunicador;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
+import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +26,11 @@ public class GridViewImageAdapter extends BaseAdapter {
 	public String tag;
 	public Boolean modoEdicion;
 	public Alumno alumno;
+	public ArrayList<String> listaPictogramaAlumno;
+	public int numeroFragment;
 
 	public GridViewImageAdapter(Activity activity, List<Integer> listaIdImagenes, Alumno alumno,
-			int imageWidth, List<String> listaNombreImagenes, Boolean modo) {
+			int imageWidth, List<String> listaNombreImagenes, Boolean modo, ArrayList<String> listaPictogramaAlumno, int numeroFragment) {
 		this._activity = activity;
 		this.listaIdImagenes = listaIdImagenes;
 		this.imageWidth = imageWidth;
@@ -43,6 +39,8 @@ public class GridViewImageAdapter extends BaseAdapter {
         this.apellido=alumno.getApellido();
 		this.modoEdicion = modo;
 		this.alumno = alumno;
+		this.listaPictogramaAlumno=listaPictogramaAlumno!=null ? listaPictogramaAlumno : new ArrayList<String>();
+		this.numeroFragment = numeroFragment;
 	}
 
 	@Override
@@ -62,7 +60,7 @@ public class GridViewImageAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		ImageView imageView;
+		final ImageView imageView;
 		if (convertView == null) {
 			imageView = new ImageView(_activity);
 		} else {
@@ -73,6 +71,15 @@ public class GridViewImageAdapter extends BaseAdapter {
 		imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		imageView.setLayoutParams(new GridView.LayoutParams(imageWidth, imageWidth));
 		((AlumnoActivity) _activity).loadBitmap(this.listaIdImagenes.get(position), imageView);
+
+		int soundId = _activity.getResources().getIdentifier(audios.get(position), "raw", _activity.getPackageName());
+		String nombreContenido = _activity.getResources().getResourceEntryName(soundId);
+		if (modoEdicion && numeroFragment != 4 && listaPictogramaAlumno.contains(nombreContenido)) {
+			imageView.setPadding(8, 8, 8, 8);
+			imageView.setBackgroundColor(Color.argb(255,0,57,77));
+		}
+
+
 		imageView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -91,10 +98,21 @@ public class GridViewImageAdapter extends BaseAdapter {
 						new SendNotificationTask().execute(lista, _activity.getApplicationContext());
 					}
 				} else {
-					Database db = new Database(_activity);
-					int soundId = _activity.getResources().getIdentifier(audios.get(position), "raw", _activity.getPackageName());
-					String nombreContenido = _activity.getResources().getResourceEntryName(soundId);
-					db.cargarPictogramaAlumno(alumno.getId(), nombreContenido);
+					if (numeroFragment != 4) {
+						Database db = new Database(_activity);
+						int soundId = _activity.getResources().getIdentifier(audios.get(position), "raw", _activity.getPackageName());
+						String nombreContenido = _activity.getResources().getResourceEntryName(soundId);
+						if (listaPictogramaAlumno.contains(nombreContenido)) {
+							listaPictogramaAlumno.remove(nombreContenido);
+							db.borrarPictogramaAlumno(alumno.getId(), nombreContenido);
+							imageView.setPadding(0, 0, 0, 0);
+						} else {
+							listaPictogramaAlumno.add(nombreContenido);
+							db.cargarPictogramaAlumno(alumno.getId(), nombreContenido);
+							imageView.setPadding(10, 10, 10, 10);
+							imageView.setBackgroundColor(Color.CYAN);
+						}
+					}
 				}
 
 			}
