@@ -75,7 +75,7 @@ public class GridViewImageAdapter extends BaseAdapter {
 		int soundId = _activity.getResources().getIdentifier(audios.get(position), "raw", _activity.getPackageName());
 		String nombreContenido = _activity.getResources().getResourceEntryName(soundId);
 		if (modoEdicion && numeroFragment != 4 && listaPictogramaAlumno.contains(nombreContenido)) {
-			imageView.setPadding(8, 8, 8, 8);
+			imageView.setPadding(20, 20, 20, 20);
 			imageView.setBackgroundColor(Color.argb(255,0,102,153));
 		}
 
@@ -109,7 +109,7 @@ public class GridViewImageAdapter extends BaseAdapter {
 						} else {
 							listaPictogramaAlumno.add(nombreContenido);
 							db.cargarPictogramaAlumno(alumno.getId(), nombreContenido);
-							imageView.setPadding(10, 10, 10, 10);
+							imageView.setPadding(20, 20, 20, 20);
 							imageView.setBackgroundColor(Color.argb(255,0,102,153));
 						}
 					}
@@ -130,6 +130,8 @@ public class GridViewImageAdapter extends BaseAdapter {
 						listaPictogramaAlumno.remove(nombreContenido);
 						db.borrarPictogramaAlumno(alumno.getId(), nombreContenido);
 						imageView.setPadding(0, 0, 0, 0);
+						Float transparencia = new Float(0.2);
+						imageView.setAlpha(transparencia);
 
 					}
 
