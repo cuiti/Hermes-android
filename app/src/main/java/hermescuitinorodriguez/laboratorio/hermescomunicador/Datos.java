@@ -83,39 +83,47 @@ public class Datos {
         ArrayList<String> necesidadesAudios = new ArrayList<>();
         necesidades.add(R.drawable.bano);
         necesidadesAudios.add("bano");
-        necesidades.add(R.drawable.sedf);
-        necesidadesAudios.add("sedf");
-        necesidades.add(R.drawable.sedm);
-        necesidadesAudios.add("sedm");
+        if (alumno.getSexo().equals("Masculino")) {
+            necesidades.add(R.drawable.sedm);
+            necesidadesAudios.add("sedm");
+        } else {
+            necesidades.add(R.drawable.sedf);
+            necesidadesAudios.add("sedf");
+        }
         Info tres = new Info(necesidades, necesidadesAudios);
         images.put("necesidades", tres);
 
         ArrayList<Integer> emociones = new ArrayList<>();
         ArrayList<String> emocionesAudios = new ArrayList<>();
-        emociones.add(R.drawable.dolorido);
-        emocionesAudios.add("meduelem");
-        emociones.add(R.drawable.dolorida);
-        emocionesAudios.add("meduelef");
-        emociones.add(R.drawable.cansado);
-        emocionesAudios.add("cansado");
-        emociones.add(R.drawable.cansada);
-        emocionesAudios.add("cansada");
-        emociones.add(R.drawable.sorprendido);
-        emocionesAudios.add("sorprendido");
-        emociones.add(R.drawable.sorprendida);
-        emocionesAudios.add("sorprendida");
-        emociones.add(R.drawable.asustado);
-        emocionesAudios.add("asustado");
-        emociones.add(R.drawable.asustada);
-        emocionesAudios.add("asustada");
-        emociones.add(R.drawable.contento);
-        emocionesAudios.add("contento");
-        emociones.add(R.drawable.contenta);
-        emocionesAudios.add("contenta");
-        emociones.add(R.drawable.enojado);
-        emocionesAudios.add("enojado");
-        emociones.add(R.drawable.enojada);
-        emocionesAudios.add("enojada");
+
+        if (alumno.getSexo().equals("Masculino")) {
+            emociones.add(R.drawable.cansado);
+            emocionesAudios.add("cansado");
+            emociones.add(R.drawable.sorprendido);
+            emocionesAudios.add("sorprendido");
+            emociones.add(R.drawable.asustado);
+            emocionesAudios.add("asustado");
+            emociones.add(R.drawable.contento);
+            emocionesAudios.add("contento");
+            emociones.add(R.drawable.enojado);
+            emocionesAudios.add("enojado");
+            emociones.add(R.drawable.dolorido);
+            emocionesAudios.add("meduelem");
+        }else{
+            emociones.add(R.drawable.sorprendida);
+            emocionesAudios.add("sorprendida");
+            emociones.add(R.drawable.cansada);
+            emocionesAudios.add("cansada");
+            emociones.add(R.drawable.asustada);
+            emocionesAudios.add("asustada");
+            emociones.add(R.drawable.contenta);
+            emocionesAudios.add("contenta");
+            emociones.add(R.drawable.enojada);
+            emocionesAudios.add("enojada");
+            emociones.add(R.drawable.dolorida);
+            emocionesAudios.add("meduelef");
+        }
+
         Info cuatro = new Info(emociones, emocionesAudios);
         images.put("emociones", cuatro);
 

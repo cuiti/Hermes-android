@@ -58,6 +58,10 @@ public class GridViewImageAdapter extends BaseAdapter {
 		return position;
 	}
 
+	public void remove(int position) {
+		this.listaIdImagenes.remove(position);
+	}
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final ImageView imageView;
@@ -130,10 +134,12 @@ public class GridViewImageAdapter extends BaseAdapter {
 						listaPictogramaAlumno.remove(nombreContenido);
 						db.borrarPictogramaAlumno(alumno.getId(), nombreContenido);
 						imageView.setPadding(0, 0, 0, 0);
-						Float transparencia = new Float(0.2);
-						imageView.setAlpha(transparencia);
+						remove(position);
+						notifyDataSetChanged();
 
 					}
+
+
 
 				}
 				return true;
