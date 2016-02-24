@@ -117,6 +117,26 @@ public class GridViewImageAdapter extends BaseAdapter {
 
 			}
 		});
+
+		imageView.setOnLongClickListener(new View.OnLongClickListener() {
+
+			@Override
+			public boolean onLongClick(View view) {
+				if (modoEdicion && numeroFragment == 4) {
+					int soundId = _activity.getResources().getIdentifier(audios.get(position), "raw", _activity.getPackageName());
+					String nombreContenido = _activity.getResources().getResourceEntryName(soundId);
+					if (!nombreContenido.equals("si") && !nombreContenido.equals("no")) {
+						Database db = new Database(_activity);
+						listaPictogramaAlumno.remove(nombreContenido);
+						db.borrarPictogramaAlumno(alumno.getId(), nombreContenido);
+						imageView.setPadding(0, 0, 0, 0);
+
+					}
+
+				}
+				return true;
+			}
+		});
 	
 		return imageView;
 	}
