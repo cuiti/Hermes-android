@@ -19,7 +19,6 @@ public class AjustesActivity extends AppCompatActivity {
 
     TextView nombreAlumno;
     TextView apellidoAlumno;
-    TextView sexoAlumno;
     TextView direccionIP;
     TextView puerto;
     Database db;
@@ -179,7 +178,6 @@ public class AjustesActivity extends AppCompatActivity {
     private boolean modificarAlumno(){
         String nombre = nombreAlumno.getText().toString();
         String apellido = apellidoAlumno.getText().toString();
-
         String tamañoPictograma = (String)spinnerTamaño.getSelectedItem();
         String sexoAlumno = (String)spinnerSexo.getSelectedItem();
         if ((nombre != null && nombre.length() != 0) && (apellido != null && apellido.length() != 0)) {

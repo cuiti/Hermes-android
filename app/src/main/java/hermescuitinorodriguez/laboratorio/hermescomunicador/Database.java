@@ -63,19 +63,6 @@ public class Database extends SQLiteOpenHelper{
         }
     }
 
-    public void cargarPictogramaAlumno(int alumno, String pictograma){
-        SQLiteDatabase db = getWritableDatabase();
-        try{
-            ContentValues values = new ContentValues();
-            values.put("alumno_id", alumno);
-            values.put("pictograma_id", pictograma);
-            db.insert("pictograma_alumno", null, values);
-            db.close();
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void agregarConfiguracion(String ip, Integer puerto){
         SQLiteDatabase db = getWritableDatabase();
         try{
@@ -89,6 +76,18 @@ public class Database extends SQLiteOpenHelper{
         }
     }
 
+    public void cargarPictogramaAlumno(int alumno, String pictograma){
+        SQLiteDatabase db = getWritableDatabase();
+        try{
+            ContentValues values = new ContentValues();
+            values.put("alumno_id", alumno);
+            values.put("pictograma_id", pictograma);
+            db.insert("pictograma_alumno", null, values);
+            db.close();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public ArrayList<Alumno> listaAlumnos() {
         SQLiteDatabase db = getReadableDatabase();
@@ -106,7 +105,6 @@ public class Database extends SQLiteOpenHelper{
         }
         return listaAlumnos;
     }
-
 
     public ArrayList<String> listaPictogramaAlumno(int alumno) {
         SQLiteDatabase db = getReadableDatabase();
@@ -138,6 +136,32 @@ public class Database extends SQLiteOpenHelper{
         return null;
     }
 
+    public Alumno getAlumno(int id){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(" SELECT * FROM alumno WHERE id=" + id, null);
+        if(c != null) {
+            c.moveToFirst();
+        }
+        Alumno alumno = new Alumno(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),
+                c.getString(4), c.getString(5));
+        db.close();
+        c.close();
+        return alumno;
+    }
+
+    public String getCategoria(String pictograma){
+        String categoria = "";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(" SELECT carpeta FROM pictograma WHERE id='" + pictograma + "' ", null);
+        if(c != null) {
+            c.moveToFirst();
+            categoria = c.getString(0);
+        }
+        db.close();
+        c.close();
+        return categoria;
+    }
+
     public void modificarConfiguracion(String ip, Integer puerto){
         SQLiteDatabase db = getWritableDatabase();
         if(db != null){
@@ -164,17 +188,16 @@ public class Database extends SQLiteOpenHelper{
         return getAlumno(id);
     }
 
-    public Alumno getAlumno(int id){
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor c = db.rawQuery(" SELECT * FROM alumno WHERE id=" + id, null);
-        if(c != null) {
-            c.moveToFirst();
-        }
-        Alumno alumno = new Alumno(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),
-                c.getString(4), c.getString(5));
+    public void borrarAlumno(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("alumno", "id="+id, null);
         db.close();
-        c.close();
-        return alumno;
+    }
+
+    public void borrarPictogramaAlumno(int alumno, String pictograma) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("pictograma_alumno", "alumno_id=" + alumno + " AND pictograma_id='" + pictograma + "'", null);
+        db.close();
     }
 
     private void cargarPictogramas( SQLiteDatabase db){
@@ -393,24 +416,5 @@ public class Database extends SQLiteOpenHelper{
         }catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void borrarAlumno(int id) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.delete("alumno", "id="+id, null);
-        db.close();
-    }
-
-    public String getCategoria(String pictograma){
-        String categoria = "";
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor c = db.rawQuery(" SELECT carpeta FROM pictograma WHERE id='" + pictograma + "' ", null);
-        if(c != null) {
-            c.moveToFirst();
-            categoria = c.getString(0);
-        }
-        db.close();
-        c.close();
-        return categoria;
     }
 }
