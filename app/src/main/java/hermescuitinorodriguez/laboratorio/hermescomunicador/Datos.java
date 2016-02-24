@@ -131,7 +131,7 @@ public class Datos {
             alumnoAudios.add(pictograma);
         }
         Info cinco = new Info(alum, alumnoAudios);
-        images.put(alumno.toString(), cinco);
+        images.put(alumno.toString().toLowerCase(), cinco);
         return images;
     }
 }
