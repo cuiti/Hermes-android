@@ -76,7 +76,7 @@ public class GridViewImageAdapter extends BaseAdapter {
 		String nombreContenido = _activity.getResources().getResourceEntryName(soundId);
 		if (modoEdicion && numeroFragment != 4 && listaPictogramaAlumno.contains(nombreContenido)) {
 			imageView.setPadding(8, 8, 8, 8);
-			imageView.setBackgroundColor(Color.argb(255,0,57,77));
+			imageView.setBackgroundColor(Color.argb(255,0,102,153));
 		}
 
 
@@ -110,7 +110,7 @@ public class GridViewImageAdapter extends BaseAdapter {
 							listaPictogramaAlumno.add(nombreContenido);
 							db.cargarPictogramaAlumno(alumno.getId(), nombreContenido);
 							imageView.setPadding(10, 10, 10, 10);
-							imageView.setBackgroundColor(Color.CYAN);
+							imageView.setBackgroundColor(Color.argb(255,0,102,153));
 						}
 					}
 				}
