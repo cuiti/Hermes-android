@@ -19,6 +19,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 public class AlumnoActivity extends AppCompatActivity {
@@ -152,9 +153,9 @@ public class AlumnoActivity extends AppCompatActivity {
             return fragment;
         }
 
-        private CharSequence getPageTitle(int position) {
+        private CharSequence getPageTitle(int numeroFragmento) {
             if (modoEdicion) {
-                switch (position) {
+                switch (numeroFragmento) {
                     case 0:
                         return "Pista";
                     case 1:
@@ -169,9 +170,9 @@ public class AlumnoActivity extends AppCompatActivity {
             }else {
                 String[] solapas = alumno.getPestañas()!=null ? alumno.getPestañas().split(",") : null; //los nombres de las solapas están separadas por comas
 
-                if (solapas != null && position < solapas.length) {
-                    return solapas[position];
-                } else if (solapas == null || position == solapas.length) {
+                if (solapas != null && numeroFragmento < solapas.length) {
+                    return solapas[numeroFragmento];
+                } else if (solapas == null || numeroFragmento == solapas.length) {
                     return alumno.toString();
                 } else {
                     return null;
@@ -203,8 +204,8 @@ public class AlumnoActivity extends AppCompatActivity {
             this.inicializarGrilla(cant_columnas, Constantes.PADDING_GRILLA);
 
             Database db = new Database(this.getContext());
-            List<Integer> listaIdImagenes = new Datos(alumno, getActivity()).getImages(db).get(nombreSolapa.toLowerCase()).ids;
-            List<String> listaNombreImagenes =  new Datos(alumno, getActivity()).getImages(db).get(nombreSolapa.toLowerCase()).nombres;
+            List<Integer> listaIdImagenes = new Datos(alumno, getActivity()).getImages(db).get(nombreSolapa.toLowerCase()).getIds();
+            List<String> listaNombreImagenes =  new Datos(alumno, getActivity()).getImages(db).get(nombreSolapa.toLowerCase()).getNombres();
             ArrayList<String> listaPictogramaAlumno = db.listaPictogramaAlumno(alumno.getId());
 
             adapter = new GridViewImageAdapter(getActivity(), listaIdImagenes, alumno, anchoColumna, listaNombreImagenes, modoEdicion, listaPictogramaAlumno, numeroFragment);
@@ -233,6 +234,16 @@ public class AlumnoActivity extends AppCompatActivity {
         }
     }
 
+    public void actualizarFragmento(int pos){
+        Fragment frag = mSectionsPagerAdapter.getFragment(pos);
+        if(frag != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .detach(frag)
+                    .attach(frag)
+                    .commit();
+        }
+    }
     public void loadBitmap(int resId, ImageView imageView) {
         BitmapWorkerTask task = new BitmapWorkerTask(imageView, getResources());
         task.execute(resId);
@@ -244,15 +255,21 @@ public class AlumnoActivity extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
+        private Hashtable<Integer, Fragment> fragments = new Hashtable<Integer, Fragment>();
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
-        public Fragment getItem(int position) {
-            return PlaceholderFragment.newInstance(position, alumno, modoEdicion);
+        public Fragment getItem(int numeroFragmento) {
+            Fragment fragmento = PlaceholderFragment.newInstance(numeroFragmento, alumno, modoEdicion);
+            this.fragments.put(numeroFragmento, fragmento);
+            return fragmento;
         }
 
+        public Fragment getFragment(int pos){
+            return this.fragments.get(pos);
+        }
 
         @Override
         public int getCount() {
@@ -262,7 +279,6 @@ public class AlumnoActivity extends AppCompatActivity {
                 String [] solapas = alumno.getPestañas() != null ? alumno.getPestañas().split(","): null;
                 return solapas != null ? solapas.length + 1 : 1;
             }
-
         }
 
         @Override
@@ -295,4 +311,6 @@ public class AlumnoActivity extends AppCompatActivity {
             return null;
         }
     }
+
+
 }

@@ -35,8 +35,6 @@ public class SendNotificationTask extends AsyncTask{
         Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy HH:mm:ss").create();
         String listaNotiJson = gson.toJson(lista);
 
-        System.out.println(listaNotiJson);
-
         Database db = new Database(contexto);
         Settings settings = db.getConfiguracion();
         if ((settings!=null)) {

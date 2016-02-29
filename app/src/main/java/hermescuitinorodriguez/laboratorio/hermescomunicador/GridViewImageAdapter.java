@@ -87,8 +87,11 @@ public class GridViewImageAdapter extends BaseAdapter {
 		imageView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				System.out.println("entra a onClickListener");
 				if (!modoEdicion) {
 					int soundId = _activity.getResources().getIdentifier(audios.get(position), "raw", _activity.getPackageName());
+					System.out.println("position:"+position);
+					System.out.println("soundID:" + soundId);
 					MediaPlayer mediaPlayer = MediaPlayer.create(_activity, soundId);
 					mediaPlayer.start();
 
@@ -114,9 +117,13 @@ public class GridViewImageAdapter extends BaseAdapter {
 							listaPictogramaAlumno.add(nombreContenido);
 							db.cargarPictogramaAlumno(alumno.getId(), nombreContenido);
 							imageView.setPadding(20, 20, 20, 20);
-							imageView.setBackgroundColor(Color.argb(255,0,102,153));
+							imageView.setBackgroundColor(Color.argb(255, 0, 102, 153));
+							notifyDataSetChanged();
 						}
+						((AlumnoActivity) _activity).actualizarFragmento(4);
 					}
+
+
 				}
 
 			}
@@ -136,7 +143,7 @@ public class GridViewImageAdapter extends BaseAdapter {
 						imageView.setPadding(0, 0, 0, 0);
 						remove(position);
 						notifyDataSetChanged();
-
+						((AlumnoActivity) _activity).actualizarFragmento(3);
 					}
 
 

@@ -299,12 +299,12 @@ public class Database extends SQLiteOpenHelper{
             values.put("carpeta", "pista");
             db.insert("pictograma", null, values);
 
-            values.put("ID", "meduelef");
+            values.put("ID", "dolorida");
             values.put("nombre", "dolorida");
             values.put("carpeta", "emociones");
             db.insert("pictograma", null, values);
 
-            values.put("ID", "meduelem");
+            values.put("ID", "dolorido");
             values.put("nombre", "dolorido");
             values.put("carpeta", "emociones");
             db.insert("pictograma", null, values);

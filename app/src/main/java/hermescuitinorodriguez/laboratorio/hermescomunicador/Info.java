@@ -11,5 +11,13 @@ public class Info {
             this.ids = ids;
             this.nombres = nombres;
     }
+
+    public ArrayList<String> getNombres() {
+        return nombres;
+    }
+
+    public ArrayList<Integer> getIds() {
+        return ids;
+    }
 }
 

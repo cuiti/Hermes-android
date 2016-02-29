@@ -108,7 +108,7 @@ public class Datos {
             emociones.add(R.drawable.enojado);
             emocionesAudios.add("enojado");
             emociones.add(R.drawable.dolorido);
-            emocionesAudios.add("meduelem");
+            emocionesAudios.add("dolorido");
         }else{
             emociones.add(R.drawable.sorprendida);
             emocionesAudios.add("sorprendida");
@@ -121,7 +121,7 @@ public class Datos {
             emociones.add(R.drawable.enojada);
             emocionesAudios.add("enojada");
             emociones.add(R.drawable.dolorida);
-            emocionesAudios.add("meduelef");
+            emocionesAudios.add("dolorida");
         }
 
         Info cuatro = new Info(emociones, emocionesAudios);
