@@ -6,3 +6,7 @@
 /*/build
 /build
 /captures
+
+
+#AndroidStudio files
+.idea

@@ -62,9 +62,9 @@ public class Datos {
         establoAudios.add("montura");
         establo.add(R.drawable.matra);
         establoAudios.add("matra");
-        establo.add(R.drawable.raquetadura);
+        establo.add(R.drawable.rasquetadura);
         establoAudios.add("rasquetadura");
-        establo.add(R.drawable.raquetablanda);
+        establo.add(R.drawable.rasquetablanda);
         establoAudios.add("rasquetablanda");
         establo.add(R.drawable.pasto);
         establoAudios.add("pasto");
