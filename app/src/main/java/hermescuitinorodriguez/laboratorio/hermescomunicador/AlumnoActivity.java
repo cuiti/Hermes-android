@@ -211,6 +211,7 @@ public class AlumnoActivity extends AppCompatActivity {
             adapter = new GridViewImageAdapter(getActivity(), listaIdImagenes, alumno, anchoColumna, listaNombreImagenes, modoEdicion, listaPictogramaAlumno, numeroFragment);
 
             gridView.setAdapter(adapter);
+
             return rootView;
         }
 
@@ -237,6 +238,7 @@ public class AlumnoActivity extends AppCompatActivity {
     public void actualizarFragmento(int pos){
         Fragment frag = mSectionsPagerAdapter.getFragment(pos);
         if(frag != null) {
+            System.out.println("actualizando fragmento " + pos);
             getSupportFragmentManager()
                     .beginTransaction()
                     .detach(frag)

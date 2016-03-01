@@ -65,11 +65,12 @@ public class GridViewImageAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final ImageView imageView;
-		if (convertView == null) {
+		imageView = new ImageView(_activity);
+		/*if (convertView == null) {
 			imageView = new ImageView(_activity);
 		} else {
 			imageView = (ImageView) convertView;
-		}
+		}*/
 
 
 		imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -83,15 +84,12 @@ public class GridViewImageAdapter extends BaseAdapter {
 			imageView.setBackgroundColor(Color.argb(255,0,102,153));
 		}
 
-
 		imageView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				System.out.println("entra a onClickListener");
+				System.out.println("entra a onClickListener de imageView");
 				if (!modoEdicion) {
 					int soundId = _activity.getResources().getIdentifier(audios.get(position), "raw", _activity.getPackageName());
-					System.out.println("position:"+position);
-					System.out.println("soundID:" + soundId);
 					MediaPlayer mediaPlayer = MediaPlayer.create(_activity, soundId);
 					mediaPlayer.start();
 
