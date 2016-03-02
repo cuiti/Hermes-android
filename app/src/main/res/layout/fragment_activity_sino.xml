@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/pestaña_alumno">
+    <GridView
+        android:layout_width="229dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/imagenes_alumno"
+        android:layout_weight="1.31"
+        android:layout_margin="1dp" />
+
+    <LinearLayout
+        android:id="@+id/yes_no_pictograms_container"
+        android:layout_weight="0.50"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:weightSum="1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:id="@+id/imageView"
+            android:src="@drawable/si"
+            android:onClick="pictograma_si"
+            android:layout_marginBottom="1dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:id="@+id/imageView2"
+            android:src="@drawable/no"
+            android:onClick="pictograma_no"
+            android:layout_marginTop="1dp" />
+    </LinearLayout>
+</LinearLayout>
