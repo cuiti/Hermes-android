@@ -35,6 +35,7 @@ public class SendNotificationTask extends AsyncTask{
         Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy HH:mm:ss").create();
         String listaNotiJson = gson.toJson(lista);
 
+        System.out.print(listaNotiJson);
         Database db = new Database(contexto);
         Settings settings = db.getConfiguracion();
         if ((settings!=null)) {
@@ -42,9 +43,10 @@ public class SendNotificationTask extends AsyncTask{
 
             //-----Para chequear si hay conexion a internet
             ConnectivityManager cm = (ConnectivityManager) contexto.getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo infoNet = cm.getActiveNetworkInfo();
+            NetworkInfo infoWifi = cm.getActiveNetworkInfo();
 
-            if (infoNet != null && infoNet.isConnectedOrConnecting()) {
+
+            if (infoWifi != null && infoWifi.getType()==ConnectivityManager.TYPE_WIFI) {
 
                 OutputStream os = null;
                 HttpURLConnection conn = null;

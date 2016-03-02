@@ -14,7 +14,7 @@
 
     <LinearLayout
         android:id="@+id/yes_no_pictograms_container"
-        android:layout_weight="0.50"
+        android:layout_weight="0.35"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_width="0dp"
