@@ -1,6 +1,7 @@
 package hermescuitinorodriguez.laboratorio.hermescomunicador;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -66,6 +67,18 @@ public class AlumnoActivity extends AppCompatActivity {
 
         setTitle(alumno.toString());
 
+    }
+
+    public void pictograma_si(View view){
+        int soundId = this.getResources().getIdentifier("si", "raw", this.getPackageName());
+        MediaPlayer player = MediaPlayer.create(this, soundId);
+        player.start();
+    }
+
+    public void pictograma_no(View view){
+        int soundId = this.getResources().getIdentifier("no", "raw", this.getPackageName());
+        MediaPlayer player = MediaPlayer.create(this, soundId);
+        player.start();
     }
 
     @Override
@@ -184,20 +197,25 @@ public class AlumnoActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_activity_main, container, false);
-
-            gridView = (GridView) rootView.findViewById(R.id.grid_view);
+            View rootView;
+            if(modoEdicion || !nombreSolapa.toLowerCase().equals(alumno.toString().toLowerCase())) {
+                rootView = inflater.inflate(R.layout.fragment_activity_main, container, false);
+                gridView = (GridView) rootView.findViewById(R.id.grid_view);
+            }else{
+                rootView = inflater.inflate(R.layout.fragment_activity_sino, container, false);
+                gridView = (GridView) rootView.findViewById(R.id.imagenes_alumno);
+            }
 
             int cant_columnas=1;
             switch (alumno.getTamañoPictogramas()) {
                 case "Chico":
-                    cant_columnas=5;
+                    cant_columnas=(modoEdicion || !nombreSolapa.toLowerCase().equals(alumno.toString().toLowerCase()))?5:4;
                     break;
                 case "Mediano":
-                    cant_columnas=4;
+                    cant_columnas=(modoEdicion || !nombreSolapa.toLowerCase().equals(alumno.toString().toLowerCase()))?4:3;
                     break;
                 case "Grande":
-                    cant_columnas=3;
+                    cant_columnas=(modoEdicion || !nombreSolapa.toLowerCase().equals(alumno.toString().toLowerCase()))?3:2;
                     break;
             }
 
@@ -216,8 +234,12 @@ public class AlumnoActivity extends AppCompatActivity {
         }
 
         private void inicializarGrilla(int cantidadColumnas, int paddingGrilla) {
-            anchoColumna = (int) ((this.getScreenWidth() - ((cantidadColumnas + 1) * paddingGrilla)) / cantidadColumnas);
-            gridView.setNumColumns(cantidadColumnas);
+            if(modoEdicion || !nombreSolapa.toLowerCase().equals(alumno.toString().toLowerCase())) {
+                anchoColumna = (int) ((this.getScreenWidth() - ((cantidadColumnas + 1) * paddingGrilla)) / cantidadColumnas);
+            }else {
+                int sino = (this.getScreenWidth() * 20) /100;
+                anchoColumna = (int) (((this.getScreenWidth() - sino) - ((cantidadColumnas + 1) * paddingGrilla)) / cantidadColumnas);
+            }            gridView.setNumColumns(cantidadColumnas);
             gridView.setColumnWidth(anchoColumna);
             gridView.setStretchMode(GridView.NO_STRETCH);
             gridView.setPadding(paddingGrilla, paddingGrilla, paddingGrilla, paddingGrilla);
@@ -302,7 +324,6 @@ public class AlumnoActivity extends AppCompatActivity {
                 String [] solapas = alumno.getPestañas() != null ? alumno.getPestañas().split(","): null; //los nombres de las solapas están separadas por comas
 
                 if (solapas != null && position < solapas.length) {
-                   // System.out.println("solapas position" + solapas[position]);
                     return solapas[position];
                 } else if (solapas == null || position == solapas.length) {
                     return alumno.toString();

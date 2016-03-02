@@ -72,7 +72,6 @@ public class GridViewImageAdapter extends BaseAdapter {
 			imageView = (ImageView) convertView;
 		}*/
 
-
 		imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		imageView.setLayoutParams(new GridView.LayoutParams(imageWidth, imageWidth));
 		((AlumnoActivity) _activity).loadBitmap(this.listaIdImagenes.get(position), imageView);
@@ -94,14 +93,12 @@ public class GridViewImageAdapter extends BaseAdapter {
 					mediaPlayer.start();
 
 					String nombreContenido = _activity.getResources().getResourceEntryName(soundId);
-					if (!nombreContenido.equals("si") && !nombreContenido.equals("no")) {
-						Database db = new Database(_activity);
-						String categoria = db.getCategoria(nombreContenido);
-						NotificacionDTO notiDTO = new NotificacionDTO(alumno.getApellido(), alumno.getNombre(), categoria, "Cedica", nombreContenido);
-						List<NotificacionDTO> lista = new ArrayList<NotificacionDTO>();
-						lista.add(notiDTO);
-						new SendNotificationTask().execute(lista, _activity.getApplicationContext());
-					}
+					Database db = new Database(_activity);
+					String categoria = db.getCategoria(nombreContenido);
+					NotificacionDTO notiDTO = new NotificacionDTO(alumno.getApellido(), alumno.getNombre(), categoria, "Cedica", nombreContenido);
+					List<NotificacionDTO> lista = new ArrayList<NotificacionDTO>();
+					lista.add(notiDTO);
+					new SendNotificationTask().execute(lista, _activity.getApplicationContext());
 				} else {
 					if (numeroFragment != 4) {
 						Database db = new Database(_activity);
@@ -121,7 +118,6 @@ public class GridViewImageAdapter extends BaseAdapter {
 						((AlumnoActivity) _activity).actualizarFragmento(4);
 					}
 
-
 				}
 
 			}
@@ -134,18 +130,13 @@ public class GridViewImageAdapter extends BaseAdapter {
 				if (modoEdicion && numeroFragment == 4) {
 					int soundId = _activity.getResources().getIdentifier(audios.get(position), "raw", _activity.getPackageName());
 					String nombreContenido = _activity.getResources().getResourceEntryName(soundId);
-					if (!nombreContenido.equals("si") && !nombreContenido.equals("no")) {
-						Database db = new Database(_activity);
-						listaPictogramaAlumno.remove(nombreContenido);
-						db.borrarPictogramaAlumno(alumno.getId(), nombreContenido);
-						imageView.setPadding(0, 0, 0, 0);
-						remove(position);
-						notifyDataSetChanged();
-						((AlumnoActivity) _activity).actualizarFragmento(3);
-					}
-
-
-
+					Database db = new Database(_activity);
+					listaPictogramaAlumno.remove(nombreContenido);
+					db.borrarPictogramaAlumno(alumno.getId(), nombreContenido);
+					imageView.setPadding(0, 0, 0, 0);
+					remove(position);
+					notifyDataSetChanged();
+					((AlumnoActivity) _activity).actualizarFragmento(3);
 				}
 				return true;
 			}
